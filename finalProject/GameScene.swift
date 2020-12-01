@@ -23,12 +23,13 @@ class GameScene: SKScene {
     var car:SKSpriteNode!
     var nodePosition = CGPoint()
     var startTouch = CGPoint()
+    var mainNoiseMap = GKNoiseMap()
     
     let map = SKNode()
     
     func makeNoiseMap(columns: Int, rows: Int) -> GKNoiseMap {
         let source = GKPerlinNoiseSource()
-        source.persistence = 0.85
+        source.persistence = 0.80
 
         let noise = GKNoise(source)
         let size = vector2(1.0, 1.0)
@@ -74,6 +75,7 @@ class GameScene: SKScene {
         
         // create the noise map
         let noiseMap = makeNoiseMap(columns: columns, rows: rows)
+        mainNoiseMap = noiseMap
 
         // create our grass/water layer
         let topLayer = SKTileMapNode(tileSet: tileSet, columns: columns, rows: rows, tileSize: tileSize)
@@ -88,7 +90,6 @@ class GameScene: SKScene {
             for row in 0 ..< rows {
                 let location = vector2(Int32(row), Int32(column))
                 let terrainHeight = noiseMap.value(at: location)
-
                 if terrainHeight < 0 { //Can be modified depending on how much water we want. Can even add conditions on height to create different tiles in splotchy pattern.
                     topLayer.setTileGroup(waterTiles, forColumn: column, row: row)
                 } else {
@@ -96,7 +97,8 @@ class GameScene: SKScene {
                 }
             }
         }
-        
+
+        print("testing")
 
         // Get label node from scene and store it for use later
         self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
@@ -104,19 +106,7 @@ class GameScene: SKScene {
             label.alpha = 0.0
             label.run(SKAction.fadeIn(withDuration: 2.0))
         }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
+       
     }
     
     
@@ -145,20 +135,55 @@ class GameScene: SKScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        /*
         let touch = touches.first
         if let location = touch?.location(in: self){
-            car.run(SKAction.move(to: CGPoint(x:  nodePosition.x + location.x - startTouch.x, y: nodePosition.y + location.y - startTouch.y), duration: 0.2)) //Duration changes character spped.
-            camera?.position.x = car.position.x
-            camera?.position.y = car.position.y
+            var xloc = nodePosition.x + location.x - startTouch.x
+            var yloc = nodePosition.y + location.y - startTouch.y
+            xloc = min(xloc,1616)
+            xloc = max(xloc,-1616)
+            yloc = min(yloc,1616)
+            yloc = max(yloc,-1616)
+            car.run(SKAction.move(to: CGPoint(x: xloc, y: yloc), duration: 0.4)) //Duration changes character spped.
         }
+        */
     }
     
     func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
+        var xlocDest = pos.x
+        var ylocDest = pos.y
+        let ogCarPos = car.position
+        xlocDest = min(xlocDest,1616)
+        xlocDest = max(xlocDest,-1616)
+        ylocDest = min(ylocDest,1616)
+        ylocDest = max(ylocDest,-1616)
+        let u = sqrt(pow(ogCarPos.x - xlocDest,2) + pow(ogCarPos.y - ylocDest,2))
+        let numSteps = Int(u)
+        //let numSteps = 10
+        var i = 1
+        var actionsToDo:[SKAction] = []
+        
+        while(i <= numSteps) {
+            let xToRun = ((xlocDest - car.position.x)*(CGFloat(i)/CGFloat(numSteps))) + ogCarPos.x
+            let yToRun = ((ylocDest - car.position.y)*(CGFloat(i)/CGFloat(numSteps))) + ogCarPos.y
+            let adjustedX = ((xToRun / 1616)*64) + 64
+            let adjustedY = ((yToRun / 1616)*64) + 64
+            var speed = 0.005
+            let location = vector2(Int32(adjustedY), Int32(adjustedX))
+            let terrIndex = mainNoiseMap.value(at: location)
+            if terrIndex < 0 {
+                speed = 0.015
+            }
+            else if terrIndex < 0.15 {
+                speed = 0.01
+            }
+            print(speed)
+            actionsToDo.append(SKAction.move(to: CGPoint(x: xToRun, y: yToRun), duration: speed/2))
+            //car.run(SKAction.move(to: CGPoint(x: xToRun, y: yToRun), duration: speed))
+            i = i+1
         }
+        car.run(SKAction.sequence(actionsToDo))
+        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -172,6 +197,20 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        camera?.position.x = car.position.x
+        camera?.position.y = car.position.y
+        
+        let position = car.position
+        //let column = landBackground.tileColumnIndex(fromPosition: position)
+        //let row = landBackground.tileRowIndex(fromPosition: position)
+        //let tile = landBackground.tileDefinition(atColumn: column, row: row)
+        let adjustedX = ((car.position.x / 1616)*64) + 64
+        let adjustedY = ((car.position.y / 1616)*64) + 64
+        let location = vector2(Int32(adjustedY), Int32(adjustedX))
+        //print(location)
+        //print(mainNoiseMap.value(at: location))
+        //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1615))))
+        //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1616))))
     }
     
 
