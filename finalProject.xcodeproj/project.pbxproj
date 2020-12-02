@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A9C7BE92577545600D3F607 /* Qye.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5A9C7BE82577545600D3F607 /* Qye.atlas */; };
 		E47AD81D25673B970062603C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47AD81C25673B970062603C /* AppDelegate.swift */; };
 		E47AD81F25673B970062603C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E47AD81E25673B970062603C /* GameScene.sks */; };
 		E47AD82125673B970062603C /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E47AD82025673B970062603C /* Actions.sks */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5A9C7BE82577545600D3F607 /* Qye.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Qye.atlas; path = ../../../../../../../Downloads/Qye.atlas; sourceTree = "<group>"; };
 		E47AD81925673B970062603C /* finalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = finalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E47AD81C25673B970062603C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E47AD81E25673B970062603C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 		E47AD81B25673B970062603C /* finalProject */ = {
 			isa = PBXGroup;
 			children = (
+				5A9C7BE82577545600D3F607 /* Qye.atlas */,
 				E47AD81C25673B970062603C /* AppDelegate.swift */,
 				E47AD81E25673B970062603C /* GameScene.sks */,
 				E47AD85025673C050062603C /* MyTileSet.sks */,
@@ -245,6 +248,7 @@
 				E47AD82825673B970062603C /* Main.storyboard in Resources */,
 				E47AD81F25673B970062603C /* GameScene.sks in Resources */,
 				E47AD82A25673B990062603C /* Assets.xcassets in Resources */,
+				5A9C7BE92577545600D3F607 /* Qye.atlas in Resources */,
 				E47AD82D25673B990062603C /* LaunchScreen.storyboard in Resources */,
 				E47AD82125673B970062603C /* Actions.sks in Resources */,
 			);

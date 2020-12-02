@@ -21,6 +21,9 @@ class GameScene: SKScene {
     
     // Scene Nodes
     var car:SKSpriteNode!
+    var mainCharacter = SKSpriteNode()
+    var qyeAtlas = SKTextureAtlas()
+    var qyeArray = [SKTexture]()
     var nodePosition = CGPoint()
     var startTouch = CGPoint()
     var mainNoiseMap = GKNoiseMap()
@@ -41,10 +44,12 @@ class GameScene: SKScene {
     
     func loadSceneNodes() {
         
-        guard let car = childNode(withName: "car") as? SKSpriteNode else {
-            fatalError("Sprite Nodes not loaded")
-        }
-        self.car = car
+//        guard let car = childNode(withName: "car") as? SKSpriteNode else {
+//            fatalError("Sprite Nodes not loaded")
+//        }
+        
+   
+        //self.car = car
         let cameraNode = SKCameraNode()
         cameraNode.position = CGPoint(x: 0, y: 0)
         self.addChild(cameraNode)
@@ -69,6 +74,21 @@ class GameScene: SKScene {
         let grassTiles = tileSet.tileGroups.first { $0.name == "Grass"}
         let sandTiles = tileSet.tileGroups.first { $0.name == "Sand"}
         
+        qyeAtlas = SKTextureAtlas(named: "Qye");
+        for i in 1...qyeAtlas.textureNames.count {
+            let name = "qye_\(i).png";
+            qyeArray.append(SKTexture(imageNamed: name));
+        }
+        mainCharacter = SKSpriteNode(imageNamed: "qye_4.png")
+        mainCharacter.size = CGSize(width: 70, height: 64)
+       
+//        mainCharacter.position = CGPoint(x: 200, y: 200)
+        //mainCharacter.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
+        self.addChild(mainCharacter)
+        
+        for items in qyeArray {
+            print(items);
+        }
         let bottomLayer = SKTileMapNode(tileSet: tileSet, columns: columns, rows: rows, tileSize: tileSize)
         bottomLayer.fill(with: sandTiles)
         map.addChild(bottomLayer)
@@ -130,8 +150,10 @@ class GameScene: SKScene {
         let touch = touches.first
         if let location = touch?.location(in: self){
             startTouch = location
-            nodePosition = car.position
+            //nodePosition = car.position
+            nodePosition = mainCharacter.position
         }
+        mainCharacter.run(SKAction.repeatForever(SKAction.animate(with: qyeArray, timePerFrame: 0.08)), withKey: "walk")
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -152,20 +174,24 @@ class GameScene: SKScene {
     func touchUp(atPoint pos : CGPoint) {
         var xlocDest = pos.x
         var ylocDest = pos.y
-        let ogCarPos = car.position
+        //let ogCarPos = car.position
+        let ogMainCharacterPos = mainCharacter.position
         xlocDest = min(xlocDest,1616)
         xlocDest = max(xlocDest,-1616)
         ylocDest = min(ylocDest,1616)
         ylocDest = max(ylocDest,-1616)
-        let u = sqrt(pow(ogCarPos.x - xlocDest,2) + pow(ogCarPos.y - ylocDest,2))
+        //let u = sqrt(pow(ogCarPos.x - xlocDest,2) + pow(ogCarPos.y - ylocDest,2))
+        let u = sqrt(pow(ogMainCharacterPos.x - xlocDest,2) + pow(ogMainCharacterPos.y - ylocDest,2))
         let numSteps = Int(u)
         //let numSteps = 10
         var i = 1
         var actionsToDo:[SKAction] = []
         
         while(i <= numSteps) {
-            let xToRun = ((xlocDest - car.position.x)*(CGFloat(i)/CGFloat(numSteps))) + ogCarPos.x
-            let yToRun = ((ylocDest - car.position.y)*(CGFloat(i)/CGFloat(numSteps))) + ogCarPos.y
+//            let xToRun = ((xlocDest - car.position.x)*(CGFloat(i)/CGFloat(numSteps))) + ogCarPos.x
+//            let yToRun = ((ylocDest - car.position.y)*(CGFloat(i)/CGFloat(numSteps))) + ogCarPos.y
+            let xToRun = ((xlocDest - mainCharacter.position.x)*(CGFloat(i)/CGFloat(numSteps))) + ogMainCharacterPos.x
+            let yToRun = ((ylocDest - mainCharacter.position.y)*(CGFloat(i)/CGFloat(numSteps))) + ogMainCharacterPos.y
             let adjustedX = ((xToRun / 1616)*64) + 64
             let adjustedY = ((yToRun / 1616)*64) + 64
             var speed = 0.005
@@ -182,9 +208,14 @@ class GameScene: SKScene {
             //car.run(SKAction.move(to: CGPoint(x: xToRun, y: yToRun), duration: speed))
             i = i+1
         }
-        car.run(SKAction.sequence(actionsToDo))
-        
+        //actionsToDo.append(SKAction.r());
+        //car.run(SKAction.sequence(actionsToDo))
+        mainCharacter.run(SKAction.sequence(actionsToDo), completion: {
+            self.mainCharacter.removeAction(forKey: "walk");
+   
+        })
     }
+
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
@@ -197,16 +228,25 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        camera?.position.x = car.position.x
-        camera?.position.y = car.position.y
+//        camera?.position.x = car.position.x
+//        camera?.position.y = car.position.y
+        camera?.position.x = mainCharacter.position.x
+        camera?.position.y = mainCharacter.position.y
         
-        let position = car.position
+        //let position = car.position
+        let position = mainCharacter.position
+        //let positionTwo = mainCharacter.position
         //let column = landBackground.tileColumnIndex(fromPosition: position)
         //let row = landBackground.tileRowIndex(fromPosition: position)
         //let tile = landBackground.tileDefinition(atColumn: column, row: row)
-        let adjustedX = ((car.position.x / 1616)*64) + 64
-        let adjustedY = ((car.position.y / 1616)*64) + 64
+        let adjustedX = ((mainCharacter.position.x / 1616)*64) + 64
+        let adjustedY = ((mainCharacter.position.y / 1616)*64) + 64
+//        let adjustedX = ((car.position.x / 1616)*64) + 64
+//        let adjustedY = ((car.position.y / 1616)*64) + 64
+        
+        
         let location = vector2(Int32(adjustedY), Int32(adjustedX))
+        //let locationTwo = vector2(Int32(adjustedYTwo), Int32(adjustedXTwo))
         //print(location)
         //print(mainNoiseMap.value(at: location))
         //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1615))))
