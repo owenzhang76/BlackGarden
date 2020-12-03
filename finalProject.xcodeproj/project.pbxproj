@@ -10,7 +10,6 @@
 		4103A1B025782C520063FAEB /* Qye.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 4103A1AF25782C510063FAEB /* Qye.atlas */; };
 		4103A1B225782EBB0063FAEB /* MCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4103A1B125782EBB0063FAEB /* MCViewController.swift */; };
 		418D41682578332F0029793F /* item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D41672578332F0029793F /* item.swift */; };
-		418D416A25783C790029793F /* ItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D416925783C780029793F /* ItemCollectionViewCell.swift */; };
 		E47AD81D25673B970062603C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47AD81C25673B970062603C /* AppDelegate.swift */; };
 		E47AD81F25673B970062603C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E47AD81E25673B970062603C /* GameScene.sks */; };
 		E47AD82125673B970062603C /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E47AD82025673B970062603C /* Actions.sks */; };
@@ -45,7 +44,6 @@
 		4103A1AF25782C510063FAEB /* Qye.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Qye.atlas; sourceTree = "<group>"; };
 		4103A1B125782EBB0063FAEB /* MCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCViewController.swift; sourceTree = "<group>"; };
 		418D41672578332F0029793F /* item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = item.swift; sourceTree = "<group>"; };
-		418D416925783C780029793F /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		E47AD81925673B970062603C /* finalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = finalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E47AD81C25673B970062603C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E47AD81E25673B970062603C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -126,7 +124,6 @@
 				E47AD82E25673B990062603C /* Info.plist */,
 				4103A1B125782EBB0063FAEB /* MCViewController.swift */,
 				418D41672578332F0029793F /* item.swift */,
-				418D416925783C780029793F /* ItemCollectionViewCell.swift */,
 			);
 			path = finalProject;
 			sourceTree = "<group>";
@@ -287,7 +284,6 @@
 				4103A1B225782EBB0063FAEB /* MCViewController.swift in Sources */,
 				E47AD82325673B970062603C /* GameScene.swift in Sources */,
 				418D41682578332F0029793F /* item.swift in Sources */,
-				418D416A25783C790029793F /* ItemCollectionViewCell.swift in Sources */,
 				E47AD82525673B970062603C /* GameViewController.swift in Sources */,
 				E47AD81D25673B970062603C /* AppDelegate.swift in Sources */,
 			);
