@@ -191,6 +191,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="JzL-tu-8vY" id="wkX-ei-3OS"/>
+                        <outlet property="tableView" destination="HJf-5s-iqG" id="qHX-HO-9hn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eh7-h1-VPe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -7,7 +7,11 @@
 
 import UIKit
 
-class MCViewController: UIViewController, UICollectionViewDataSource {
+class MCViewController: UIViewController, UICollectionViewDataSource, UITableViewDataSource {
+    
+    
+    
+    //collection view stuff
 
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -29,8 +33,38 @@ class MCViewController: UIViewController, UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "myColCell", for: indexPath)
         
+        //need to ask owen for larger pictures here because creates a pattern with it.. doesn't fit
         cell.backgroundColor = UIColor(patternImage: items[indexPath.row].image)
+        let title = UILabel(frame: CGRect(x:0, y:0, width: cell.bounds.size.width, height: cell.bounds.size.height/4))
+        title.textColor = UIColor.white
+        title.text = items[indexPath.row].itemName
+        print(items[indexPath.row].itemName)
+        title.textAlignment = .center
+        //title.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        title.backgroundColor = UIColor.red
         return cell
+        
+    }
+    
+    //table view stuff
+    
+    @IBOutlet weak var tableView: UITableView!
+    var myArray = ["Mary", "Billy", "Jane"]
+
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return myArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+       // let myCell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        let myCell = tableView.dequeueReusableCell(withIdentifier: "theTabCell")! as UITableViewCell
+        
+        
+        myCell.textLabel!.text = myArray[indexPath.row]
+        
+        return myCell
         
     }
     
@@ -40,6 +74,8 @@ class MCViewController: UIViewController, UICollectionViewDataSource {
         // Do any additional setup after loading the view.
         items = [compass, crown, shotgun, sword]
         collectionView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "theTabCell")
+        tableView.dataSource = self
     }
 
 
