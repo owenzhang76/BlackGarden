@@ -1,120 +1,81 @@
-////
-////  MCViewController.swift
-////  finalProject
-////
-////  Created by Marissa Kalkar on 12/2/20.
-////  Copyright © 2020 Tory Farmer. All rights reserved.
-////
 //
-//import UIKit
+//  MCViewController.swift
+//  finalProject
 //
-//class MCViewController: UIViewController, UICollectionViewDataSource{
-//
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-////        updateCell(collectionView, cellForItemAt: indexPath)
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "myColCell", for: indexPath)
-//            cell.backgroundColor = UIColor(patternImage: items[indexPath.row].image)
-////            cell.cell_label.text = items[indexPath.row].itemName
-//            return cell
-//    }
-//
-//
-//
-//    let compass = Item(image: UIImage(named: "black_garden_compass_1")!, itemName: "compass" )
-//    let crown = Item(image: UIImage(named: "black_garden_crown_1")!, itemName: "crown")
-//    let shotgun = Item(image: UIImage(named: "black_garden_shotgun_1")!, itemName: "shotgun")
-//    let sword = Item(image: UIImage(named: "black_garden_sword_1")!, itemName: "sword")
-//
-//    var items: [Item] = []
-//
-//    func numberOfSections(in collectionView: UICollectionView) -> Int {
-//           return 1
-//       }
-//
-//       func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return items.count
-//       }
-//
-////       func updateCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> ItemCollectionViewCell {
-////
-////        let cell: ItemCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "myColCell", for: indexPath) as! ItemCollectionViewCell
-////           cell.backgroundColor = UIColor(patternImage: items[indexPath.row].image)
-////
-////
-////
-////        cell.cell_label.text = items[indexPath.row].itemName
-////
-////
-////           return cell
-////       }
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        collectionView.dataSource = self
-//        items = [compass, crown, shotgun, sword]
-//        // Do any additional setup after loading the view.
-//    }
-//
-//
-//    /*
-//    // MARK: - Navigation
-//
-//    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destination.
-//        // Pass the selected object to the new view controller.
-//    }
-//    */
-//
-//}
-
-
-//
-//  ViewController.swift
-//  CollectionViewDemo
-//
-//  Created by Todd Sproull on 6/18/20.
-//  Copyright © 2020 Todd Sproull. All rights reserved.
-//
+//  Created by Marissa Kalkar on 12/2/20.
+//  Copyright © 2020 Tory Farmer. All rights reserved.
 
 import UIKit
 
-class MCViewController: UIViewController, UICollectionViewDataSource {
+class MCViewController: UIViewController, UICollectionViewDataSource, UITableViewDataSource {
+    
+    
+    
+    //collection view stuff
 
     @IBOutlet weak var collectionView: UICollectionView!
     
+    let compass = Item(image: UIImage(named: "black_garden_compass_1")!, itemName: "compass" )
+    let crown = Item(image: UIImage(named: "black_garden_crown_1")!, itemName: "crown")
+    let shotgun = Item(image: UIImage(named: "black_garden_shotgun_1")!, itemName: "shotgun")
+    let sword = Item(image: UIImage(named: "black_garden_sword_1")!, itemName: "sword")
+    var items: [Item] = []
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 7
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return items.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "myColCell", for: indexPath)
         
-        
-        if(indexPath.section % 2 == 1){
-            cell.backgroundColor = UIColor.blue
-        } else {
-            cell.backgroundColor = UIColor.red
-        }
-        
+        //need to ask owen for larger pictures here because creates a pattern with it.. doesn't fit
+        cell.backgroundColor = UIColor(patternImage: items[indexPath.row].image)
+        let title = UILabel(frame: CGRect(x:0, y:0, width: cell.bounds.size.width, height: cell.bounds.size.height/4))
+        title.textColor = UIColor.white
+        title.text = items[indexPath.row].itemName
+        print(items[indexPath.row].itemName)
+        title.textAlignment = .center
+        //title.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        title.backgroundColor = UIColor.red
         return cell
         
     }
     
+    //table view stuff
+    
+    @IBOutlet weak var tableView: UITableView!
+    var myArray = ["Mary", "Billy", "Jane"]
 
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return myArray.count
+    }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+       // let myCell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        let myCell = tableView.dequeueReusableCell(withIdentifier: "theTabCell")! as UITableViewCell
+        
+        
+        myCell.textLabel!.text = myArray[indexPath.row]
+        
+        return myCell
+        
+    }
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-         collectionView.dataSource = self
+        items = [compass, crown, shotgun, sword]
+        collectionView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "theTabCell")
+        tableView.dataSource = self
     }
 
 

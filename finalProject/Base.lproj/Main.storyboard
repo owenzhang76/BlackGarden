@@ -139,15 +139,21 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="JzL-tu-8vY">
                                 <rect key="frame" x="414" y="166" width="390" height="196"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewLayout key="collectionViewLayout" id="U8q-RP-mtL"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PcQ-mD-tiE">
+                                    <size key="itemSize" width="54" height="53"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="myColCell" id="gmk-W8-qV9">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="54" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="ziU-N7-1Jw">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="54" height="53"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </collectionViewCellContentView>
+                                        <size key="customSize" width="54" height="53"/>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -184,15 +190,16 @@
                         <barButtonItem key="backBarButtonItem" title="BACK" id="Vlq-U7-1Gu"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="JzL-tu-8vY" id="J4W-xA-5wK"/>
+                        <outlet property="collectionView" destination="JzL-tu-8vY" id="wkX-ei-3OS"/>
+                        <outlet property="tableView" destination="HJf-5s-iqG" id="qHX-HO-9hn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eh7-h1-VPe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3" y="12"/>
+            <point key="canvasLocation" x="54.679802955665025" y="12"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="T9E-Jf-NKW"/>
+        <segue reference="kb9-op-R4W"/>
     </inferredMetricsTieBreakers>
 </document>
