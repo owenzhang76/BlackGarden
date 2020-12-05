@@ -19,6 +19,10 @@ class GameScene: SKScene {
     // touch location
     var targetLocation: CGPoint = .zero
     
+    // other variables
+    var isRavenSpawned = false;
+    var enemiesArray = [RavenEnemy]();
+    
     // Scene Nodes
     var car:SKSpriteNode!
     var mainCharacter = SKSpriteNode()
@@ -27,6 +31,7 @@ class GameScene: SKScene {
     var nodePosition = CGPoint()
     var startTouch = CGPoint()
     var mainNoiseMap = GKNoiseMap()
+    
     
     let map = SKNode()
     
@@ -43,13 +48,6 @@ class GameScene: SKScene {
     }
     
     func loadSceneNodes() {
-        
-//        guard let car = childNode(withName: "car") as? SKSpriteNode else {
-//            fatalError("Sprite Nodes not loaded")
-//        }
-        
-   
-        //self.car = car
         let cameraNode = SKCameraNode()
         cameraNode.position = CGPoint(x: 0, y: 0)
         self.addChild(cameraNode)
@@ -57,7 +55,6 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        
         loadSceneNodes()
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         
@@ -82,12 +79,11 @@ class GameScene: SKScene {
         mainCharacter = SKSpriteNode(imageNamed: "qye_4.png")
         mainCharacter.size = CGSize(width: 70, height: 64)
        
-//        mainCharacter.position = CGPoint(x: 200, y: 200)
-        //mainCharacter.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         self.addChild(mainCharacter)
-        
+        print("mybigpepee");
+        print(self);
         for items in qyeArray {
-            print(items);
+            //print(items);
         }
         let bottomLayer = SKTileMapNode(tileSet: tileSet, columns: columns, rows: rows, tileSize: tileSize)
         bottomLayer.fill(with: sandTiles)
@@ -110,7 +106,8 @@ class GameScene: SKScene {
             for row in 0 ..< rows {
                 let location = vector2(Int32(row), Int32(column))
                 let terrainHeight = noiseMap.value(at: location)
-                if terrainHeight < 0 { //Can be modified depending on how much water we want. Can even add conditions on height to create different tiles in splotchy pattern.
+                if terrainHeight < 0 {
+                    //Can be modified depending on how much water we want. Can even add conditions on height to create different tiles in splotchy pattern.
                     topLayer.setTileGroup(waterTiles, forColumn: column, row: row)
                 } else {
                     topLayer.setTileGroup(grassTiles, forColumn: column, row: row)
@@ -119,6 +116,8 @@ class GameScene: SKScene {
         }
 
         print("testing")
+        print(vector2(Int32(0), Int32(0)));
+        print(vector2(Int32(128), Int32(128)));
 
         // Get label node from scene and store it for use later
         self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
@@ -150,46 +149,28 @@ class GameScene: SKScene {
         let touch = touches.first
         if let location = touch?.location(in: self){
             startTouch = location
-            //nodePosition = car.position
             nodePosition = mainCharacter.position
         }
         mainCharacter.run(SKAction.repeatForever(SKAction.animate(with: qyeArray, timePerFrame: 0.08)), withKey: "walk")
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        /*
-        let touch = touches.first
-        if let location = touch?.location(in: self){
-            var xloc = nodePosition.x + location.x - startTouch.x
-            var yloc = nodePosition.y + location.y - startTouch.y
-            xloc = min(xloc,1616)
-            xloc = max(xloc,-1616)
-            yloc = min(yloc,1616)
-            yloc = max(yloc,-1616)
-            car.run(SKAction.move(to: CGPoint(x: xloc, y: yloc), duration: 0.4)) //Duration changes character spped.
-        }
-        */
     }
     
     func touchUp(atPoint pos : CGPoint) {
         var xlocDest = pos.x
         var ylocDest = pos.y
-        //let ogCarPos = car.position
         let ogMainCharacterPos = mainCharacter.position
         xlocDest = min(xlocDest,1616)
         xlocDest = max(xlocDest,-1616)
         ylocDest = min(ylocDest,1616)
         ylocDest = max(ylocDest,-1616)
-        //let u = sqrt(pow(ogCarPos.x - xlocDest,2) + pow(ogCarPos.y - ylocDest,2))
         let u = sqrt(pow(ogMainCharacterPos.x - xlocDest,2) + pow(ogMainCharacterPos.y - ylocDest,2))
         let numSteps = Int(u)
-        //let numSteps = 10
         var i = 1
         var actionsToDo:[SKAction] = []
         
         while(i <= numSteps) {
-//            let xToRun = ((xlocDest - car.position.x)*(CGFloat(i)/CGFloat(numSteps))) + ogCarPos.x
-//            let yToRun = ((ylocDest - car.position.y)*(CGFloat(i)/CGFloat(numSteps))) + ogCarPos.y
             let xToRun = ((xlocDest - mainCharacter.position.x)*(CGFloat(i)/CGFloat(numSteps))) + ogMainCharacterPos.x
             let yToRun = ((ylocDest - mainCharacter.position.y)*(CGFloat(i)/CGFloat(numSteps))) + ogMainCharacterPos.y
             let adjustedX = ((xToRun / 1616)*64) + 64
@@ -203,16 +184,12 @@ class GameScene: SKScene {
             else if terrIndex < 0.15 {
                 speed = 0.01
             }
-            print(speed)
+            
             actionsToDo.append(SKAction.move(to: CGPoint(x: xToRun, y: yToRun), duration: speed/2))
-            //car.run(SKAction.move(to: CGPoint(x: xToRun, y: yToRun), duration: speed))
             i = i+1
         }
-        //actionsToDo.append(SKAction.r());
-        //car.run(SKAction.sequence(actionsToDo))
         mainCharacter.run(SKAction.sequence(actionsToDo), completion: {
             self.mainCharacter.removeAction(forKey: "walk");
-   
         })
     }
 
@@ -228,12 +205,9 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-//        camera?.position.x = car.position.x
-//        camera?.position.y = car.position.y
         camera?.position.x = mainCharacter.position.x
         camera?.position.y = mainCharacter.position.y
         
-        //let position = car.position
         let position = mainCharacter.position
         //let positionTwo = mainCharacter.position
         //let column = landBackground.tileColumnIndex(fromPosition: position)
@@ -241,16 +215,46 @@ class GameScene: SKScene {
         //let tile = landBackground.tileDefinition(atColumn: column, row: row)
         let adjustedX = ((mainCharacter.position.x / 1616)*64) + 64
         let adjustedY = ((mainCharacter.position.y / 1616)*64) + 64
-//        let adjustedX = ((car.position.x / 1616)*64) + 64
-//        let adjustedY = ((car.position.y / 1616)*64) + 64
-        
-        
         let location = vector2(Int32(adjustedY), Int32(adjustedX))
         //let locationTwo = vector2(Int32(adjustedYTwo), Int32(adjustedXTwo))
-        //print(location)
+        //print(position)
         //print(mainNoiseMap.value(at: location))
         //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1615))))
         //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1616))))
+        
+        if (adjustedX >= 65 && adjustedY >= 65 && !isRavenSpawned) {
+            // spawn one raven if character is in bounds.
+            spawnRaven();
+            isRavenSpawned = true;
+        }
+    }
+    
+    func spawnRaven() {
+        print("spawnRaven ran");
+       
+        let location = vector2(Int32(74), Int32(74))
+        let ravenOne = RavenEnemy(fromHealth: 10, fromLocation: location, fromSpeed: 1, fromDamage: 1)
+        enemiesArray.append(ravenOne);
+        let ravenAtlas = SKTextureAtlas(named: "ravenMissionary")
+        for i in 1...ravenAtlas.textureNames.count {
+            let name = "raven_missionary\(i).png";
+            ravenOne.array.append(SKTexture(imageNamed: name))
+        }
+        ravenOne.image = SKSpriteNode(imageNamed: "raven_missionary_1.png")
+        ravenOne.image.size = CGSize(width: 70, height: 105)
+        let positionX = 1616*((90-64)/64);
+        let positionY = 1616*((90-64)/64);
+        let positionToSpawn = CGPoint(x:positionX, y:positionY);
+        print("##########");
+        print(positionX, mainCharacter.position.x, positionY, mainCharacter.position.y)
+        ravenOne.image.position = positionToSpawn;
+         self.addChild(ravenOne.image);
+        for items in ravenOne.array {
+            //print(items);
+        }
+        
+//        ravenOne.image.run(SKAction.repeatForever(SKAction.animate(with: ravenOne.array, timePerFrame: 0.08)), withKey: "walk")
+        
     }
     
 
