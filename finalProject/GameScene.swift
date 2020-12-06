@@ -91,9 +91,6 @@ class GameScene: SKScene {
         mainCharacter.run(SKAction.repeatForever(SKAction.animate(with: qyeIdleArray, timePerFrame: 0.2)), withKey: "idle")
         print("my big pepee");
         print(self);
-        for items in qyeIdleArray {
-            //print(items);
-        }
         let bottomLayer = SKTileMapNode(tileSet: tileSet, columns: columns, rows: rows, tileSize: tileSize)
         bottomLayer.fill(with: sandTiles)
         map.addChild(bottomLayer)
@@ -226,7 +223,7 @@ class GameScene: SKScene {
         let adjustedY = ((mainCharacter.position.y / 1616)*64) + 64
         let location = vector2(Int32(adjustedY), Int32(adjustedX))
         //let locationTwo = vector2(Int32(adjustedYTwo), Int32(adjustedXTwo))
-        //print(position)
+        print(position)
         //print(mainNoiseMap.value(at: location))
         //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1615))))
         //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1616))))
@@ -239,12 +236,14 @@ class GameScene: SKScene {
     }
     
     func spawnRaven() {
-        print("spawnRaven ran");
-       
-        let location = vector2(Int32(74), Int32(74))
-        let position = CGPoint(x: 74, y:74);
-        let ravenOne = RavenEnemy(fromHealth: 10, fromLocation: location, fromSpeed: 1, fromDamage: 1, fromPosition: position)
+        // instantiate raven object
+        let positionX = 1616.0*((70-64)/64.0);
+        let positionY = 1616.0*((70-64)/64.0);
+        let positionToSpawn = CGPoint(x:positionX, y:positionY);
+        let ravenOne = RavenEnemy(fromHealth: 10, fromLocation: vector2(Int32(70), Int32(70)), fromSpeed: 1, fromDamage: 1, fromPosition: positionToSpawn)
+        // append to all enemies array
         enemiesArray.append(ravenOne);
+        // setup raven sprite
         let ravenAtlas = SKTextureAtlas(named: "ravenMissionaryIdle")
         for i in 0...ravenAtlas.textureNames.count-1 {
             let name = "raven_missionary_idle_\(i).png";
@@ -252,19 +251,10 @@ class GameScene: SKScene {
         }
         ravenOne.image = SKSpriteNode(imageNamed: "raven_missionary_idle_1.png")
         ravenOne.image.size = CGSize(width: 60, height: 90)
-        let positionX = 1616.0*((70-64)/64.0);
-        let positionY = 1616.0*((70-64)/64.0);
-        let positionToSpawn = CGPoint(x:positionX, y:positionY);
-        print("##########");
-        print(positionX, mainCharacter.position.x, positionY, mainCharacter.position.y)
-        ravenOne.image.position = positionToSpawn;
+        ravenOne.image.position = ravenOne.position;
+        // append to map
         self.addChild(ravenOne.image);
-        for items in ravenOne.array {
-            print(items);
-        }
+        // animate idle animation
         ravenOne.image.run(SKAction.repeatForever(SKAction.animate(with: ravenOne.array, timePerFrame: 0.2)), withKey: "idle")
-        
     }
-    
-
 }
