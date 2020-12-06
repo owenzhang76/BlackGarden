@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4103A1B025782C520063FAEB /* QyeWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 4103A1AF25782C510063FAEB /* QyeWalking.atlas */; };
 		4103A1B225782EBB0063FAEB /* MCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4103A1B125782EBB0063FAEB /* MCViewController.swift */; };
+		41678C07257D9DF50055CC76 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41678C06257D9DF50055CC76 /* Player.swift */; };
 		418D41682578332F0029793F /* item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418D41672578332F0029793F /* item.swift */; };
 		5A7DA28C257C2C5C0037DBC9 /* ravenMissionaryWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5A7DA28B257C2C5C0037DBC9 /* ravenMissionaryWalking.atlas */; };
 		5A7DA28E257C2CFF0037DBC9 /* RavenEnemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7DA28D257C2CFF0037DBC9 /* RavenEnemy.swift */; };
@@ -47,6 +48,7 @@
 /* Begin PBXFileReference section */
 		4103A1AF25782C510063FAEB /* QyeWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = QyeWalking.atlas; sourceTree = "<group>"; };
 		4103A1B125782EBB0063FAEB /* MCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCViewController.swift; sourceTree = "<group>"; };
+		41678C06257D9DF50055CC76 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		418D41672578332F0029793F /* item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = item.swift; sourceTree = "<group>"; };
 		5A7DA28B257C2C5C0037DBC9 /* ravenMissionaryWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ravenMissionaryWalking.atlas; sourceTree = "<group>"; };
 		5A7DA28D257C2CFF0037DBC9 /* RavenEnemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RavenEnemy.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				4103A1B125782EBB0063FAEB /* MCViewController.swift */,
 				418D41672578332F0029793F /* item.swift */,
 				5A7DA28D257C2CFF0037DBC9 /* RavenEnemy.swift */,
+				41678C06257D9DF50055CC76 /* Player.swift */,
 			);
 			path = finalProject;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				5A7DA28E257C2CFF0037DBC9 /* RavenEnemy.swift in Sources */,
 				E47AD82325673B970062603C /* GameScene.swift in Sources */,
 				418D41682578332F0029793F /* item.swift in Sources */,
+				41678C07257D9DF50055CC76 /* Player.swift in Sources */,
 				E47AD82525673B970062603C /* GameViewController.swift in Sources */,
 				E47AD81D25673B970062603C /* AppDelegate.swift in Sources */,
 			);
