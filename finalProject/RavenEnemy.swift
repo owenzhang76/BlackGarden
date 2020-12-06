@@ -25,12 +25,14 @@ class RavenEnemy:CharacterProtocol {
     var damage:Int
     var image = SKSpriteNode()
     var array = [SKTexture]()
+    var position:CGPoint
     
-    init(fromHealth health:Int, fromLocation location:simd_int2, fromSpeed speed:Double, fromDamage damage:Int) {
+    init(fromHealth health:Int, fromLocation location:simd_int2, fromSpeed speed:Double, fromDamage damage:Int, fromPosition position:CGPoint) {
         self.health = health
         self.location = location
         self.speed = speed
         self.damage = damage
+        self.position = position
     }
     
     func appear() {

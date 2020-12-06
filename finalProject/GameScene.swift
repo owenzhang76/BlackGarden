@@ -26,8 +26,10 @@ class GameScene: SKScene {
     // Scene Nodes
     var car:SKSpriteNode!
     var mainCharacter = SKSpriteNode()
-    var qyeAtlas = SKTextureAtlas()
-    var qyeArray = [SKTexture]()
+    var qyeIdleAtlas = SKTextureAtlas()
+    var qyeIdleArray = [SKTexture]()
+    var qyeWalkAtlas = SKTextureAtlas()
+    var qyeWalkArray = [SKTexture]()
     var nodePosition = CGPoint()
     var startTouch = CGPoint()
     var mainNoiseMap = GKNoiseMap()
@@ -71,18 +73,25 @@ class GameScene: SKScene {
         let grassTiles = tileSet.tileGroups.first { $0.name == "Grass"}
         let sandTiles = tileSet.tileGroups.first { $0.name == "Sand"}
         
-        qyeAtlas = SKTextureAtlas(named: "Qye");
-        for i in 1...qyeAtlas.textureNames.count {
-            let name = "qye_\(i).png";
-            qyeArray.append(SKTexture(imageNamed: name));
+        qyeIdleAtlas = SKTextureAtlas(named: "QyeIdle");
+        for i in 0...qyeIdleAtlas.textureNames.count - 1 {
+            let name = "qye_idle_\(i).png";
+            qyeIdleArray.append(SKTexture(imageNamed: name));
         }
-        mainCharacter = SKSpriteNode(imageNamed: "qye_4.png")
+        
+        qyeWalkAtlas = SKTextureAtlas(named: "QyeWalking");
+        for i in 1...qyeWalkAtlas.textureNames.count {
+            let name = "qye_walking_\(i).png";
+            qyeWalkArray.append(SKTexture(imageNamed: name));
+        }
+        
+        mainCharacter = SKSpriteNode(imageNamed: "qye_idle_1.png")
         mainCharacter.size = CGSize(width: 70, height: 64)
-       
         self.addChild(mainCharacter)
-        print("mybigpepee");
+        mainCharacter.run(SKAction.repeatForever(SKAction.animate(with: qyeIdleArray, timePerFrame: 0.2)), withKey: "idle")
+        print("my big pepee");
         print(self);
-        for items in qyeArray {
+        for items in qyeIdleArray {
             //print(items);
         }
         let bottomLayer = SKTileMapNode(tileSet: tileSet, columns: columns, rows: rows, tileSize: tileSize)
@@ -151,7 +160,7 @@ class GameScene: SKScene {
             startTouch = location
             nodePosition = mainCharacter.position
         }
-        mainCharacter.run(SKAction.repeatForever(SKAction.animate(with: qyeArray, timePerFrame: 0.08)), withKey: "walk")
+        mainCharacter.run(SKAction.repeatForever(SKAction.animate(with: qyeWalkArray, timePerFrame: 0.08)), withKey: "walk")
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -233,27 +242,27 @@ class GameScene: SKScene {
         print("spawnRaven ran");
        
         let location = vector2(Int32(74), Int32(74))
-        let ravenOne = RavenEnemy(fromHealth: 10, fromLocation: location, fromSpeed: 1, fromDamage: 1)
+        let position = CGPoint(x: 74, y:74);
+        let ravenOne = RavenEnemy(fromHealth: 10, fromLocation: location, fromSpeed: 1, fromDamage: 1, fromPosition: position)
         enemiesArray.append(ravenOne);
-        let ravenAtlas = SKTextureAtlas(named: "ravenMissionary")
-        for i in 1...ravenAtlas.textureNames.count {
-            let name = "raven_missionary\(i).png";
+        let ravenAtlas = SKTextureAtlas(named: "ravenMissionaryIdle")
+        for i in 0...ravenAtlas.textureNames.count-1 {
+            let name = "raven_missionary_idle_\(i).png";
             ravenOne.array.append(SKTexture(imageNamed: name))
         }
-        ravenOne.image = SKSpriteNode(imageNamed: "raven_missionary_1.png")
-        ravenOne.image.size = CGSize(width: 70, height: 105)
-        let positionX = 1616*((90-64)/64);
-        let positionY = 1616*((90-64)/64);
+        ravenOne.image = SKSpriteNode(imageNamed: "raven_missionary_idle_1.png")
+        ravenOne.image.size = CGSize(width: 60, height: 90)
+        let positionX = 1616.0*((70-64)/64.0);
+        let positionY = 1616.0*((70-64)/64.0);
         let positionToSpawn = CGPoint(x:positionX, y:positionY);
         print("##########");
         print(positionX, mainCharacter.position.x, positionY, mainCharacter.position.y)
         ravenOne.image.position = positionToSpawn;
-         self.addChild(ravenOne.image);
+        self.addChild(ravenOne.image);
         for items in ravenOne.array {
-            //print(items);
+            print(items);
         }
-        
-//        ravenOne.image.run(SKAction.repeatForever(SKAction.animate(with: ravenOne.array, timePerFrame: 0.08)), withKey: "walk")
+        ravenOne.image.run(SKAction.repeatForever(SKAction.animate(with: ravenOne.array, timePerFrame: 0.2)), withKey: "idle")
         
     }
     
