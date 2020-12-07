@@ -18,6 +18,8 @@ class Player:CharacterProtocol {
     var array = [SKTexture]()
     var position:CGPoint
     var items = [Item]()
+    var crownCount: Int = 0
+    var didWin: Bool = false
     
     
     init(fromHealth health:Int, fromLocation location:simd_int2, fromSpeed speed:Double, fromDamage damage:Int, fromPosition position:CGPoint, fromItems items: [Item], fromImage image: SKSpriteNode) {
@@ -30,6 +32,14 @@ class Player:CharacterProtocol {
         self.image = image
         
     }
+    
+    func collectItem() {
+        //if collision add to array
+        // if it's a crown then add it to the crown count
+        // you win if there are 5 crowns
+        
+    }
+    
     
     func appear() {
         
