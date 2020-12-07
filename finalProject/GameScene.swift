@@ -20,7 +20,6 @@ class GameScene: SKScene {
     var targetLocation: CGPoint = .zero
     
     // other variables
-    var isRavenSpawned = false;
     var enemiesArray = [RavenEnemy]();
     
     // Scene Nodes
@@ -55,6 +54,17 @@ class GameScene: SKScene {
         cameraNode.position = CGPoint(x: 0, y: 0)
         self.addChild(cameraNode)
         self.camera = cameraNode
+        let pX = 151.5;
+        let pY = 151.5;
+        var numRavensPlaced = 0
+        while (numRavensPlaced < 25) { //Currently places 25 enemies
+            let xPos = Double(Int.random(in: -1616..<1616))
+            let yPos = Double(Int.random(in: -1616..<1616))
+            spawnRaven(positionX: xPos, positionY: yPos)
+            numRavensPlaced = numRavensPlaced + 1
+        }
+        print("position",pX,pY)
+        spawnRaven(positionX: pX, positionY: pY)
     }
     
     override func didMove(to view: SKView) {
@@ -99,11 +109,12 @@ class GameScene: SKScene {
         // create the noise map
         let noiseMap = makeNoiseMap(columns: columns, rows: rows)
         mainNoiseMap = noiseMap
+        
+        // add items to the world
+        spawnItems()
 
-        // create our grass/water layer
+        // create layers.
         let topLayer = SKTileMapNode(tileSet: tileSet, columns: columns, rows: rows, tileSize: tileSize)
-
-        // make SpriteKit do the work of placing specific tiles
         topLayer.enableAutomapping = true
 
         // add the grass/water layer to our main map node
@@ -216,31 +227,94 @@ class GameScene: SKScene {
         camera?.position.x = mainCharacter.image.position.x
         camera?.position.y = mainCharacter.image.position.y
         
-        let position = mainCharacter.image.position
+        //let position = mainCharacter.image.position
         //let positionTwo = mainCharacter.position
         //let column = landBackground.tileColumnIndex(fromPosition: position)
         //let row = landBackground.tileRowIndex(fromPosition: position)
         //let tile = landBackground.tileDefinition(atColumn: column, row: row)
         let adjustedX = ((mainCharacter.image.position.x / 1616)*64) + 64
         let adjustedY = ((mainCharacter.image.position.y / 1616)*64) + 64
-        let location = vector2(Int32(adjustedY), Int32(adjustedX))
+        //let location = vector2(Int32(adjustedY), Int32(adjustedX))
         //let locationTwo = vector2(Int32(adjustedYTwo), Int32(adjustedXTwo))
-        print(position)
+        //print(position)
         //print(mainNoiseMap.value(at: location))
         //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1615))))
         //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1616))))
+    }
+    
+    func spawnItems() {
+        var numCrownsPlaced = 0
+        while (numCrownsPlaced < 5) { //Currently places 5 crowns
+            let xPos = Double(Int.random(in: -1616..<1616))
+            let yPos = Double(Int.random(in: -1616..<1616))
+            let adjustedX = ((xPos / 1616)*64) + 64
+            let adjustedY = ((yPos / 1616)*64) + 64
+            let location = vector2(Int32(adjustedY), Int32(adjustedX))
+            let terrHeight = mainNoiseMap.value(at: location)
+            if terrHeight > 0 {
+                //Spawn crown
+                let positionToSpawn = CGPoint(x:xPos, y:yPos);
+                let crown = SKSpriteNode(imageNamed: "black_garden_crown_1.png")
+                crown.position = positionToSpawn
+                self.addChild(crown)
+                numCrownsPlaced = numCrownsPlaced + 1
+            }
+        }
         
-        if (adjustedX >= 65 && adjustedY >= 65 && !isRavenSpawned) {
-            // spawn one raven if character is in bounds.
-            spawnRaven();
-            isRavenSpawned = true;
+        var numCompassPlaced = 0
+        while (numCompassPlaced < 5) {
+            let xPos = Double(Int.random(in: -1616..<1616))
+            let yPos = Double(Int.random(in: -1616..<1616))
+            let adjustedX = ((xPos / 1616)*64) + 64
+            let adjustedY = ((yPos / 1616)*64) + 64
+            let location = vector2(Int32(adjustedY), Int32(adjustedX))
+            let terrHeight = mainNoiseMap.value(at: location)
+            if terrHeight > 0 {
+                let positionToSpawn = CGPoint(x:xPos, y:yPos);
+                let comp = SKSpriteNode(imageNamed: "black_garden_compass_1.png")
+                comp.position = positionToSpawn
+                self.addChild(comp)
+                numCompassPlaced = numCrownsPlaced + 1
+            }
+        }
+        
+        var numShotgunPlaced = 0
+        while (numShotgunPlaced < 5) {
+            let xPos = Double(Int.random(in: -1616..<1616))
+            let yPos = Double(Int.random(in: -1616..<1616))
+            let adjustedX = ((xPos / 1616)*64) + 64
+            let adjustedY = ((yPos / 1616)*64) + 64
+            let location = vector2(Int32(adjustedY), Int32(adjustedX))
+            let terrHeight = mainNoiseMap.value(at: location)
+            if terrHeight > 0 {
+                let positionToSpawn = CGPoint(x:xPos, y:yPos);
+                let sg = SKSpriteNode(imageNamed: "black_garden_shotgun_1.png")
+                sg.position = positionToSpawn
+                self.addChild(sg)
+                numShotgunPlaced = numShotgunPlaced + 1
+            }
+        }
+        
+        var numSwordPlaced = 0
+        while (numSwordPlaced < 10) {
+            let xPos = Double(Int.random(in: -1616..<1616))
+            let yPos = Double(Int.random(in: -1616..<1616))
+            let adjustedX = ((xPos / 1616)*64) + 64
+            let adjustedY = ((yPos / 1616)*64) + 64
+            let location = vector2(Int32(adjustedY), Int32(adjustedX))
+            let terrHeight = mainNoiseMap.value(at: location)
+            if terrHeight > 0 {
+                let positionToSpawn = CGPoint(x:xPos, y:yPos);
+                let sword = SKSpriteNode(imageNamed: "black_garden_sword_1.png")
+                sword.position = positionToSpawn
+                self.addChild(sword)
+                numSwordPlaced = numSwordPlaced + 1
+            }
         }
     }
     
-    func spawnRaven() {
+    func spawnRaven(positionX: Double, positionY: Double) {
         // instantiate raven object
-        let positionX = 1616.0*((70-64)/64.0);
-        let positionY = 1616.0*((70-64)/64.0);
         let positionToSpawn = CGPoint(x:positionX, y:positionY);
         let ravenOne = RavenEnemy(fromHealth: 10, fromLocation: vector2(Int32(70), Int32(70)), fromSpeed: 1, fromDamage: 1, fromPosition: positionToSpawn)
         // append to all enemies array
