@@ -25,7 +25,8 @@ class GameScene: SKScene {
     
     // Scene Nodes
     var car:SKSpriteNode!
-    var mainCharacter = SKSpriteNode()
+    //var mainCharacter = SKSpriteNode()
+    var mainCharacter = Player(fromHealth: 100, fromLocation: vector2(Int32(0), Int32(0)), fromSpeed: 0.0, fromDamage: 50, fromPosition: CGPoint(x: 0.0,y: 0.0), fromItems: [Item](), fromImage: SKSpriteNode(imageNamed: "qye_idle_1.png"))
     var qyeIdleAtlas = SKTextureAtlas()
     var qyeIdleArray = [SKTexture]()
     var qyeWalkAtlas = SKTextureAtlas()
@@ -85,10 +86,10 @@ class GameScene: SKScene {
             qyeWalkArray.append(SKTexture(imageNamed: name));
         }
         
-        mainCharacter = SKSpriteNode(imageNamed: "qye_idle_1.png")
-        mainCharacter.size = CGSize(width: 70, height: 64)
-        self.addChild(mainCharacter)
-        mainCharacter.run(SKAction.repeatForever(SKAction.animate(with: qyeIdleArray, timePerFrame: 0.2)), withKey: "idle")
+        //mainCharacter.image = SKSpriteNode(imageNamed: "qye_idle_1.png")
+        mainCharacter.image.size = CGSize(width: 70, height: 64)
+        self.addChild(mainCharacter.image)
+        mainCharacter.image.run(SKAction.repeatForever(SKAction.animate(with: qyeIdleArray, timePerFrame: 0.2)), withKey: "idle")
         print("my big pepee");
         print(self);
         let bottomLayer = SKTileMapNode(tileSet: tileSet, columns: columns, rows: rows, tileSize: tileSize)
@@ -155,9 +156,10 @@ class GameScene: SKScene {
         let touch = touches.first
         if let location = touch?.location(in: self){
             startTouch = location
-            nodePosition = mainCharacter.position
+            nodePosition = mainCharacter.image.position
+            
         }
-        mainCharacter.run(SKAction.repeatForever(SKAction.animate(with: qyeWalkArray, timePerFrame: 0.08)), withKey: "walk")
+        mainCharacter.image.run(SKAction.repeatForever(SKAction.animate(with: qyeWalkArray, timePerFrame: 0.08)), withKey: "walk")
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -166,7 +168,7 @@ class GameScene: SKScene {
     func touchUp(atPoint pos : CGPoint) {
         var xlocDest = pos.x
         var ylocDest = pos.y
-        let ogMainCharacterPos = mainCharacter.position
+        let ogMainCharacterPos = mainCharacter.image.position
         xlocDest = min(xlocDest,1616)
         xlocDest = max(xlocDest,-1616)
         ylocDest = min(ylocDest,1616)
@@ -177,8 +179,8 @@ class GameScene: SKScene {
         var actionsToDo:[SKAction] = []
         
         while(i <= numSteps) {
-            let xToRun = ((xlocDest - mainCharacter.position.x)*(CGFloat(i)/CGFloat(numSteps))) + ogMainCharacterPos.x
-            let yToRun = ((ylocDest - mainCharacter.position.y)*(CGFloat(i)/CGFloat(numSteps))) + ogMainCharacterPos.y
+            let xToRun = ((xlocDest - mainCharacter.image.position.x)*(CGFloat(i)/CGFloat(numSteps))) + ogMainCharacterPos.x
+            let yToRun = ((ylocDest - mainCharacter.image.position.y)*(CGFloat(i)/CGFloat(numSteps))) + ogMainCharacterPos.y
             let adjustedX = ((xToRun / 1616)*64) + 64
             let adjustedY = ((yToRun / 1616)*64) + 64
             var speed = 0.005
@@ -194,8 +196,8 @@ class GameScene: SKScene {
             actionsToDo.append(SKAction.move(to: CGPoint(x: xToRun, y: yToRun), duration: speed/2))
             i = i+1
         }
-        mainCharacter.run(SKAction.sequence(actionsToDo), completion: {
-            self.mainCharacter.removeAction(forKey: "walk");
+        mainCharacter.image.run(SKAction.sequence(actionsToDo), completion: {
+            self.mainCharacter.image.removeAction(forKey: "walk");
         })
     }
 
@@ -211,16 +213,16 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        camera?.position.x = mainCharacter.position.x
-        camera?.position.y = mainCharacter.position.y
+        camera?.position.x = mainCharacter.image.position.x
+        camera?.position.y = mainCharacter.image.position.y
         
-        let position = mainCharacter.position
+        let position = mainCharacter.image.position
         //let positionTwo = mainCharacter.position
         //let column = landBackground.tileColumnIndex(fromPosition: position)
         //let row = landBackground.tileRowIndex(fromPosition: position)
         //let tile = landBackground.tileDefinition(atColumn: column, row: row)
-        let adjustedX = ((mainCharacter.position.x / 1616)*64) + 64
-        let adjustedY = ((mainCharacter.position.y / 1616)*64) + 64
+        let adjustedX = ((mainCharacter.image.position.x / 1616)*64) + 64
+        let adjustedY = ((mainCharacter.image.position.y / 1616)*64) + 64
         let location = vector2(Int32(adjustedY), Int32(adjustedX))
         //let locationTwo = vector2(Int32(adjustedYTwo), Int32(adjustedXTwo))
         print(position)

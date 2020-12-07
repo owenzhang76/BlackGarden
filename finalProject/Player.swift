@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SpriteKit
 
 class Player:CharacterProtocol {
     var health:Int
@@ -18,13 +19,16 @@ class Player:CharacterProtocol {
     var position:CGPoint
     var items = [Item]()
     
-    init(fromHealth health:Int, fromLocation location:simd_int2, fromSpeed speed:Double, fromDamage damage:Int, fromPosition position:CGPoint, fromItems items: [Item]) {
+    
+    init(fromHealth health:Int, fromLocation location:simd_int2, fromSpeed speed:Double, fromDamage damage:Int, fromPosition position:CGPoint, fromItems items: [Item], fromImage image: SKSpriteNode) {
         self.health = health
         self.location = location
         self.speed = speed
         self.damage = damage
         self.position = position
         self.items = items
+        self.image = image
+        
     }
     
     func appear() {
