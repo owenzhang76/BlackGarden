@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene,SKPhysicsContactDelegate {
     
     //Thanks to https://www.hackingwithswift.com/example-code/games/how-to-create-a-random-terrain-tile-map-using-sktilemapnode-and-gkperlinnoisesource  and https://www.raywenderlich.com/1079-what-s-new-in-spritekit-on-ios-10-a-look-at-tile-maps for inspiration.
     
@@ -98,6 +98,10 @@ class GameScene: SKScene {
         
         //mainCharacter.image = SKSpriteNode(imageNamed: "qye_idle_1.png")
         mainCharacter.image.size = CGSize(width: 70, height: 64)
+        mainCharacter.image.physicsBody = SKPhysicsBody(circleOfRadius: 25.0)
+        mainCharacter.image.physicsBody!.affectedByGravity = false;
+        mainCharacter.image.physicsBody!.isDynamic = true
+        mainCharacter.image.physicsBody!.categoryBitMask = 1;
         self.addChild(mainCharacter.image)
         mainCharacter.image.run(SKAction.repeatForever(SKAction.animate(with: qyeIdleArray, timePerFrame: 0.2)), withKey: "idle")
         print("my big pepee");
@@ -132,8 +136,6 @@ class GameScene: SKScene {
                 }
             }
         }
-
-        print("testing")
         print(vector2(Int32(0), Int32(0)));
         print(vector2(Int32(128), Int32(128)));
 
@@ -171,6 +173,14 @@ class GameScene: SKScene {
             
         }
         mainCharacter.image.run(SKAction.repeatForever(SKAction.animate(with: qyeWalkArray, timePerFrame: 0.08)), withKey: "walk")
+    }
+    
+    func collisionBetween(player: SKNode, object: SKNode) {
+        print(object.name)
+    }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        print("CONTACT")
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -226,20 +236,33 @@ class GameScene: SKScene {
         // Called before each frame is rendered
         camera?.position.x = mainCharacter.image.position.x
         camera?.position.y = mainCharacter.image.position.y
-        
+        mainCharacter.position = mainCharacter.image.position
+        //print(mainCharacter.position,mainCharacter.image.position)
         //let position = mainCharacter.image.position
         //let positionTwo = mainCharacter.position
         //let column = landBackground.tileColumnIndex(fromPosition: position)
         //let row = landBackground.tileRowIndex(fromPosition: position)
         //let tile = landBackground.tileDefinition(atColumn: column, row: row)
-        let adjustedX = ((mainCharacter.image.position.x / 1616)*64) + 64
-        let adjustedY = ((mainCharacter.image.position.y / 1616)*64) + 64
+        //let adjustedX = ((mainCharacter.image.position.x / 1616)*64) + 64
+        //let adjustedY = ((mainCharacter.image.position.y / 1616)*64) + 64
         //let location = vector2(Int32(adjustedY), Int32(adjustedX))
         //let locationTwo = vector2(Int32(adjustedYTwo), Int32(adjustedXTwo))
         //print(position)
-        //print(mainNoiseMap.value(at: location))
+        //print(mainNoiseMap.value(at: location))0
         //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1615))))
         //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1616))))
+        //print(mainCharacter.image.physicsBody.)
+        
+        if mainCharacter.image.physicsBody?.allContactedBodies().count ?? 0 > 0 {
+            //print(mainCharacter.image.physicsBody?.allContactedBodies())
+            let firstBody = mainCharacter.image.physicsBody?.allContactedBodies()[0]
+            if let skb = firstBody {
+                if let parentNode = skb.node {
+                    print(parentNode.name)
+                    parentNode.removeFromParent()
+                }
+            }
+        }
     }
     
     func spawnItems() {
@@ -255,6 +278,10 @@ class GameScene: SKScene {
                 //Spawn crown
                 let positionToSpawn = CGPoint(x:xPos, y:yPos);
                 let crown = SKSpriteNode(imageNamed: "black_garden_crown_1.png")
+                crown.name = "crown";
+                crown.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
+                crown.physicsBody!.affectedByGravity = false;
+                crown.physicsBody!.categoryBitMask = 1;
                 crown.position = positionToSpawn
                 self.addChild(crown)
                 numCrownsPlaced = numCrownsPlaced + 1
@@ -272,6 +299,10 @@ class GameScene: SKScene {
             if terrHeight > 0 {
                 let positionToSpawn = CGPoint(x:xPos, y:yPos);
                 let comp = SKSpriteNode(imageNamed: "black_garden_compass_1.png")
+                comp.name = "compass";
+                comp.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
+                comp.physicsBody!.affectedByGravity = false;
+                comp.physicsBody!.categoryBitMask = 1;
                 comp.position = positionToSpawn
                 self.addChild(comp)
                 numCompassPlaced = numCrownsPlaced + 1
@@ -289,6 +320,10 @@ class GameScene: SKScene {
             if terrHeight > 0 {
                 let positionToSpawn = CGPoint(x:xPos, y:yPos);
                 let sg = SKSpriteNode(imageNamed: "black_garden_shotgun_1.png")
+                sg.name = "shotgun";
+                sg.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
+                sg.physicsBody!.affectedByGravity = false;
+                sg.physicsBody!.categoryBitMask = 1;
                 sg.position = positionToSpawn
                 self.addChild(sg)
                 numShotgunPlaced = numShotgunPlaced + 1
@@ -306,6 +341,10 @@ class GameScene: SKScene {
             if terrHeight > 0 {
                 let positionToSpawn = CGPoint(x:xPos, y:yPos);
                 let sword = SKSpriteNode(imageNamed: "black_garden_sword_1.png")
+                sword.name = "sword";
+                sword.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
+                sword.physicsBody!.affectedByGravity = false;
+                sword.physicsBody!.categoryBitMask = 1;
                 sword.position = positionToSpawn
                 self.addChild(sword)
                 numSwordPlaced = numSwordPlaced + 1
@@ -326,8 +365,13 @@ class GameScene: SKScene {
             ravenOne.array.append(SKTexture(imageNamed: name))
         }
         ravenOne.image = SKSpriteNode(imageNamed: "raven_missionary_idle_1.png")
+        ravenOne.image.name = "raven";
+        ravenOne.image.physicsBody = SKPhysicsBody(circleOfRadius: 25.0)
+        ravenOne.image.physicsBody!.affectedByGravity = false;
+        ravenOne.image.physicsBody!.categoryBitMask = 1;
         ravenOne.image.size = CGSize(width: 60, height: 90)
         ravenOne.image.position = ravenOne.position;
+        print(ravenOne.image.position)
         // append to map
         self.addChild(ravenOne.image);
         // animate idle animation
