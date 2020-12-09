@@ -170,7 +170,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if let location = touch?.location(in: self){
             startTouch = location
             nodePosition = mainCharacter.image.position
-            
         }
         mainCharacter.image.run(SKAction.repeatForever(SKAction.animate(with: qyeWalkArray, timePerFrame: 0.08)), withKey: "walk")
     }
@@ -187,6 +186,25 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }
     
     func touchUp(atPoint pos : CGPoint) {
+        
+        let positionInScene = pos
+        let touchedNode = self.atPoint(positionInScene)
+        print(touchedNode.name)
+        if touchedNode.name == "raven" {
+            let mcPos = mainCharacter.position
+            let maxDistance = 100.0 //Minimum distance for combat.
+            let dx = mcPos.x - touchedNode.position.x
+            let dy = mcPos.y - touchedNode.position.y
+            let distance = sqrt(dx*dx + dy*dy)
+            if distance <= CGFloat(maxDistance) {
+                if let rav = touchedNode as? Raven {
+                    rav.takeDamage(damage:50)
+                    print(rav.health)
+                }
+            }
+            return //We attacked the raven instead of moving.
+        }
+        
         var xlocDest = pos.x
         var ylocDest = pos.y
         let ogMainCharacterPos = mainCharacter.image.position
@@ -256,13 +274,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if mainCharacter.image.physicsBody?.allContactedBodies().count ?? 0 > 0 {
             //print(mainCharacter.image.physicsBody?.allContactedBodies())
             let firstBody = mainCharacter.image.physicsBody?.allContactedBodies()[0]
-            if let skb = firstBody {
-                if let parentNode = skb.node {
-                    print(parentNode.name)
-                    parentNode.removeFromParent()
-                }
-            }
         }
+        
+        //print(array)
     }
     
     func spawnItems() {
@@ -353,6 +367,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }
     
     func spawnRaven(positionX: Double, positionY: Double) {
+        /*
         // instantiate raven object
         let positionToSpawn = CGPoint(x:positionX, y:positionY);
         let ravenOne = RavenEnemy(fromHealth: 10, fromLocation: vector2(Int32(70), Int32(70)), fromSpeed: 1, fromDamage: 1, fromPosition: positionToSpawn)
@@ -364,7 +379,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             let name = "raven_missionary_idle_\(i).png";
             ravenOne.array.append(SKTexture(imageNamed: name))
         }
-        ravenOne.image = SKSpriteNode(imageNamed: "raven_missionary_idle_1.png")
+        ravenOne.image = Raven(imageNamed: "raven_missionary_idle_1.png")
+        let u = Raven(imageNamed: "raven_missionary_idle_1.png")
+        u.test()
         ravenOne.image.name = "raven";
         ravenOne.image.physicsBody = SKPhysicsBody(circleOfRadius: 25.0)
         ravenOne.image.physicsBody!.affectedByGravity = false;
@@ -376,5 +393,28 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         self.addChild(ravenOne.image);
         // animate idle animation
         ravenOne.image.run(SKAction.repeatForever(SKAction.animate(with: ravenOne.array, timePerFrame: 0.2)), withKey: "idle")
+        */
+        
+        // instantiate raven object
+        let positionToSpawn = CGPoint(x:positionX, y:positionY);
+        let ravenAtlas = SKTextureAtlas(named: "ravenMissionaryIdle")
+        var frames = [SKTexture]()
+        for i in 0...ravenAtlas.textureNames.count-1 {
+            let name = "raven_missionary_idle_\(i).png";
+            frames.append(SKTexture(imageNamed: name))
+        }
+        let rav2spawn = Raven(imageNamed: "raven_missionary_idle_1.png")
+        rav2spawn.name = "raven";
+        rav2spawn.physicsBody = SKPhysicsBody(circleOfRadius: 25.0)
+        rav2spawn.physicsBody!.affectedByGravity = false;
+        rav2spawn.physicsBody!.categoryBitMask = 1;
+        rav2spawn.size = CGSize(width: 60, height: 90)
+        rav2spawn.position = positionToSpawn;
+        rav2spawn.zPosition = 2
+        self.addChild(rav2spawn);
+        rav2spawn.run(SKAction.repeatForever(SKAction.animate(with: frames, timePerFrame: 0.2)), withKey: "idle")
     }
+    
 }
+
+

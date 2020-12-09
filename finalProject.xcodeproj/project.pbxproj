@@ -26,6 +26,7 @@
 		E47AD83825673B990062603C /* finalProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47AD83725673B990062603C /* finalProjectTests.swift */; };
 		E47AD84325673B990062603C /* finalProjectUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47AD84225673B990062603C /* finalProjectUITests.swift */; };
 		E47AD85125673C050062603C /* MyTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = E47AD85025673C050062603C /* MyTileSet.sks */; };
+		E49609BF25803A9B005D6FCA /* Raven.swift in Sources */ = {isa = PBXBuildFile; fileRef = E49609BE25803A9B005D6FCA /* Raven.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		E47AD84225673B990062603C /* finalProjectUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = finalProjectUITests.swift; sourceTree = "<group>"; };
 		E47AD84425673B990062603C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E47AD85025673C050062603C /* MyTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyTileSet.sks; sourceTree = "<group>"; };
+		E49609BE25803A9B005D6FCA /* Raven.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Raven.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 				4103A1B125782EBB0063FAEB /* MCViewController.swift */,
 				418D41672578332F0029793F /* item.swift */,
 				5A7DA28D257C2CFF0037DBC9 /* RavenEnemy.swift */,
+				E49609BE25803A9B005D6FCA /* Raven.swift */,
 				41678C06257D9DF50055CC76 /* Player.swift */,
 			);
 			path = finalProject;
@@ -301,6 +304,7 @@
 			files = (
 				4103A1B225782EBB0063FAEB /* MCViewController.swift in Sources */,
 				5A7DA28E257C2CFF0037DBC9 /* RavenEnemy.swift in Sources */,
+				E49609BF25803A9B005D6FCA /* Raven.swift in Sources */,
 				E47AD82325673B970062603C /* GameScene.swift in Sources */,
 				418D41682578332F0029793F /* item.swift in Sources */,
 				41678C07257D9DF50055CC76 /* Player.swift in Sources */,
