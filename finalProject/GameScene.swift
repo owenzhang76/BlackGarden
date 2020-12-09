@@ -34,7 +34,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var startTouch = CGPoint()
     var mainNoiseMap = GKNoiseMap()
     
-    
     let map = SKNode()
     
     func makeNoiseMap(columns: Int, rows: Int) -> GKNoiseMap {
@@ -174,10 +173,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         mainCharacter.image.run(SKAction.repeatForever(SKAction.animate(with: qyeWalkArray, timePerFrame: 0.08)), withKey: "walk")
     }
     
-    func collisionBetween(player: SKNode, object: SKNode) {
-        print(object.name)
-    }
-    
     func didBeginContact(contact: SKPhysicsContact) {
         print("CONTACT")
     }
@@ -192,15 +187,31 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         print(touchedNode.name)
         if touchedNode.name == "raven" {
             let mcPos = mainCharacter.position
-            let maxDistance = 100.0 //Minimum distance for combat.
+            let maxSwordDistance = 100.0 //Minimum distance for hand to hand combat.
+            let maxGunDistance = 300.0 //Minimum distance for gunshot.
             let dx = mcPos.x - touchedNode.position.x
             let dy = mcPos.y - touchedNode.position.y
             let distance = sqrt(dx*dx + dy*dy)
-            if distance <= CGFloat(maxDistance) {
-                if let rav = touchedNode as? Raven {
-                    rav.takeDamage(damage:50)
-                    print(rav.health)
+            if let rav = touchedNode as? Raven {
+                if distance <= CGFloat(maxSwordDistance) && mainCharacter.hasSword {
+                    rav.takeDamage(damage:50) //Sword damage is 50
+                    if (rav.health <= 0) {
+                        rav.removeFromParent()
+                    }
                 }
+                else if distance <= CGFloat(maxGunDistance) && mainCharacter.hasGun {
+                    rav.takeDamage(damage:35) //Gun damage is 35
+                    if (rav.health <= 0) {
+                        rav.removeFromParent()
+                    }
+                }
+                else if distance <= CGFloat(maxSwordDistance) { //Player is unarmed
+                    rav.takeDamage(damage:20) //Fist damage is 20
+                    if (rav.health <= 0) {
+                        rav.removeFromParent()
+                    }
+                }
+                print(rav.health)
             }
             return //We attacked the raven instead of moving.
         }
@@ -274,6 +285,25 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         if mainCharacter.image.physicsBody?.allContactedBodies().count ?? 0 > 0 {
             //print(mainCharacter.image.physicsBody?.allContactedBodies())
             let firstBody = mainCharacter.image.physicsBody?.allContactedBodies()[0]
+            let touchedItem = firstBody?.node
+            if let tI = touchedItem{
+                if tI.name == "sword" {
+                    mainCharacter.hasSword = true
+                    tI.removeFromParent()
+                }
+            }
+            if let tI = touchedItem{
+                if tI.name == "shotgun" {
+                    mainCharacter.hasGun = true
+                    tI.removeFromParent()
+                }
+            }
+            if let tI = touchedItem{
+                if tI.name == "compass" {
+                    //This is where compass code gets implemented. Display text on a crown location somewhere.
+                    tI.removeFromParent()
+                }
+            }
         }
         
         //print(array)

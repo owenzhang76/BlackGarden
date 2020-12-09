@@ -17,10 +17,12 @@ class Player:CharacterProtocol {
     var image = SKSpriteNode()
     var array = [SKTexture]()
     var position:CGPoint
-    var items = [Item]()
     var crownCount: Int = 0
     var didWin: Bool = false
     
+    //Handling the items this way is much easier.
+    var hasSword: Bool = false
+    var hasGun: Bool = false
     
     init(fromHealth health:Int, fromLocation location:simd_int2, fromSpeed speed:Double, fromDamage damage:Int, fromPosition position:CGPoint, fromItems items: [Item], fromImage image: SKSpriteNode) {
         self.health = health
@@ -28,9 +30,7 @@ class Player:CharacterProtocol {
         self.speed = speed
         self.damage = damage
         self.position = position
-        self.items = items
         self.image = image
-        
     }
     
     func collectItem() {
