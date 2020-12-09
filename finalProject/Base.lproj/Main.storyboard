@@ -110,25 +110,6 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kUc-ka-md3" id="hPL-54-7KX">
                                             <rect key="frame" x="0.0" y="0.0" width="362" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt;stat&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fX-5C-i7X">
-                                                    <rect key="frame" x="15" y="11" width="51" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="4ax-lt-dZc">
-                                                    <rect key="frame" x="15" y="40" width="347" height="2"/>
-                                                </progressView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="4ax-lt-dZc" firstAttribute="top" secondItem="6fX-5C-i7X" secondAttribute="bottom" constant="8" symbolic="YES" id="IO9-UM-qf4"/>
-                                                <constraint firstItem="6fX-5C-i7X" firstAttribute="leading" secondItem="4ax-lt-dZc" secondAttribute="leading" id="alL-vB-WCQ"/>
-                                                <constraint firstItem="6fX-5C-i7X" firstAttribute="leading" secondItem="hPL-54-7KX" secondAttribute="leadingMargin" id="f02-Ah-VYC"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6fX-5C-i7X" secondAttribute="trailing" constant="20" symbolic="YES" id="i9K-Ha-v53"/>
-                                                <constraint firstAttribute="trailing" secondItem="4ax-lt-dZc" secondAttribute="trailing" id="iHS-bs-VFe"/>
-                                                <constraint firstItem="6fX-5C-i7X" firstAttribute="top" secondItem="hPL-54-7KX" secondAttribute="topMargin" id="kvM-5y-dvy"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -200,7 +181,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="fWg-xi-X7W"/>
         <segue reference="kb9-op-R4W"/>
     </inferredMetricsTieBreakers>
 </document>

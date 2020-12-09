@@ -34,6 +34,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var startTouch = CGPoint()
     var mainNoiseMap = GKNoiseMap()
     
+    var itemsCollected: [String] = UserDefaults.standard.stringArray(forKey: "playerItems") as? [String] ?? []
+   
+    
     let map = SKNode()
     
     func makeNoiseMap(columns: Int, rows: Int) -> GKNoiseMap {
@@ -184,7 +187,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         let positionInScene = pos
         let touchedNode = self.atPoint(positionInScene)
-        print(touchedNode.name)
+       // print("here: ")
+       // print(touchedNode.name)
         if touchedNode.name == "raven" {
             let mcPos = mainCharacter.position
             let maxSwordDistance = 100.0 //Minimum distance for hand to hand combat.
@@ -286,20 +290,27 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             //print(mainCharacter.image.physicsBody?.allContactedBodies())
             let firstBody = mainCharacter.image.physicsBody?.allContactedBodies()[0]
             let touchedItem = firstBody?.node
+            
             if let tI = touchedItem{
                 if tI.name == "sword" {
+                    itemsCollected.append("sword")
+                    UserDefaults.standard.set(itemsCollected, forKey: "playerItems")
                     mainCharacter.hasSword = true
                     tI.removeFromParent()
                 }
             }
             if let tI = touchedItem{
                 if tI.name == "shotgun" {
+                    itemsCollected.append("shotgun")
+                    UserDefaults.standard.set(itemsCollected, forKey: "playerItems")
                     mainCharacter.hasGun = true
                     tI.removeFromParent()
                 }
             }
             if let tI = touchedItem{
                 if tI.name == "compass" {
+                    itemsCollected.append("compass")
+                    UserDefaults.standard.set(itemsCollected, forKey: "playerItems")
                     //This is where compass code gets implemented. Display text on a crown location somewhere.
                     tI.removeFromParent()
                 }

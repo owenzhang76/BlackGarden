@@ -10,10 +10,10 @@ import UIKit
 import SpriteKit
 
 class Player:CharacterProtocol {
-    var health:Int
+    var health:Int = 100
     var location = vector2(Int32(), Int32())
     var speed:Double
-    var damage:Int
+    var damage:Int = 20
     var image = SKSpriteNode()
     var array = [SKTexture]()
     var position:CGPoint
