@@ -35,7 +35,24 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var mainNoiseMap = GKNoiseMap()
     
     var itemsCollected: [String] = UserDefaults.standard.stringArray(forKey: "playerItems") as? [String] ?? []
-   
+//    var crowns: Int = 0
+//    var health: Int = 0
+//    var damage: Int = 0
+    
+    let stats = UserDefaults.standard
+    //var health : Int
+    
+  
+      
+//        self.health  = stats.integer(forKey: "health")
+//        self.damage  = stats.integer(forKey: "damage")
+//        self.crowns = stats.integer(forKey: "crowns")
+//        print("in init")
+//        print(crowns)
+    
+    
+    
+    
     
     let map = SKNode()
     
@@ -106,8 +123,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         mainCharacter.image.physicsBody!.categoryBitMask = 1;
         self.addChild(mainCharacter.image)
         mainCharacter.image.run(SKAction.repeatForever(SKAction.animate(with: qyeIdleArray, timePerFrame: 0.2)), withKey: "idle")
-        print("my big pepee");
-        print(self);
         let bottomLayer = SKTileMapNode(tileSet: tileSet, columns: columns, rows: rows, tileSize: tileSize)
         bottomLayer.fill(with: sandTiles)
         map.addChild(bottomLayer)
@@ -183,12 +198,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
     }
     
+   
     func touchUp(atPoint pos : CGPoint) {
         
         let positionInScene = pos
         let touchedNode = self.atPoint(positionInScene)
        // print("here: ")
        // print(touchedNode.name)
+        mainCharacter.health = 100
+        UserDefaults.standard.set(mainCharacter.health, forKey: "health")
+        print(mainCharacter.health)
         if touchedNode.name == "raven" {
             let mcPos = mainCharacter.position
             let maxSwordDistance = 100.0 //Minimum distance for hand to hand combat.
@@ -198,18 +217,30 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             let distance = sqrt(dx*dx + dy*dy)
             if let rav = touchedNode as? Raven {
                 if distance <= CGFloat(maxSwordDistance) && mainCharacter.hasSword {
+                    mainCharacter.health -= 10
+                    print("has sword")
+                    print(mainCharacter.health)
+                    UserDefaults.standard.set(mainCharacter.health, forKey: "health")
                     rav.takeDamage(damage:50) //Sword damage is 50
                     if (rav.health <= 0) {
                         rav.removeFromParent()
                     }
                 }
                 else if distance <= CGFloat(maxGunDistance) && mainCharacter.hasGun {
+                    mainCharacter.health -= 10
+                    UserDefaults.standard.set(mainCharacter.health, forKey: "health")
                     rav.takeDamage(damage:35) //Gun damage is 35
+                    print("has gun")
+                    print(mainCharacter.health)
                     if (rav.health <= 0) {
                         rav.removeFromParent()
                     }
                 }
                 else if distance <= CGFloat(maxSwordDistance) { //Player is unarmed
+                    mainCharacter.health -= 10
+                    UserDefaults.standard.set(mainCharacter.health, forKey: "health")
+                    print("unarmed")
+                    print(mainCharacter.health)
                     rav.takeDamage(damage:20) //Fist damage is 20
                     if (rav.health <= 0) {
                         rav.removeFromParent()
@@ -286,14 +317,20 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1616))))
         //print(mainCharacter.image.physicsBody.)
         
+        var damage = stats.integer(forKey: "damage")
+        damage = 20
         if mainCharacter.image.physicsBody?.allContactedBodies().count ?? 0 > 0 {
             //print(mainCharacter.image.physicsBody?.allContactedBodies())
             let firstBody = mainCharacter.image.physicsBody?.allContactedBodies()[0]
             let touchedItem = firstBody?.node
-            
+            UserDefaults.standard.set(damage, forKey: "damage")
             if let tI = touchedItem{
                 if tI.name == "sword" {
-                    itemsCollected.append("sword")
+                    damage = 50
+                    UserDefaults.standard.set(damage, forKey: "damage")
+                    if !itemsCollected.contains("sword"){
+                         itemsCollected.append("sword")
+                    }
                     UserDefaults.standard.set(itemsCollected, forKey: "playerItems")
                     mainCharacter.hasSword = true
                     tI.removeFromParent()
@@ -301,7 +338,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             }
             if let tI = touchedItem{
                 if tI.name == "shotgun" {
-                    itemsCollected.append("shotgun")
+                    damage = 35
+                    UserDefaults.standard.set(damage, forKey: "damage")
+                    if !itemsCollected.contains("shotgun"){
+                         itemsCollected.append("shotgun")
+                    }
                     UserDefaults.standard.set(itemsCollected, forKey: "playerItems")
                     mainCharacter.hasGun = true
                     tI.removeFromParent()
@@ -309,8 +350,21 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             }
             if let tI = touchedItem{
                 if tI.name == "compass" {
-                    itemsCollected.append("compass")
+                    if !itemsCollected.contains("compass"){
+                         itemsCollected.append("compasss")
+                    }
                     UserDefaults.standard.set(itemsCollected, forKey: "playerItems")
+                    //This is where compass code gets implemented. Display text on a crown location somewhere.
+                    tI.removeFromParent()
+                }
+            }
+            if let tI = touchedItem{
+                if tI.name == "crown" {
+                    print("touched a crown")
+                    var crowns = stats.integer(forKey: "crowns")
+                    crowns += 1
+                    print(crowns)
+                    UserDefaults.standard.set(crowns, forKey: "crowns")
                     //This is where compass code gets implemented. Display text on a crown location somewhere.
                     tI.removeFromParent()
                 }

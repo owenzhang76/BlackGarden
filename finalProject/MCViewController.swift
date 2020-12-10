@@ -24,11 +24,12 @@ class MCViewController: UIViewController, UICollectionViewDataSource, UITableVie
     let shotgun = Item(image: UIImage(named: "black_garden_shotgun_1")!, itemName: "shotgun")
     let sword = Item(image: UIImage(named: "black_garden_sword_1")!, itemName: "sword")
    
+    let stringArray: [String] = ["Crown Count: ", "Health: ", "Damage: "]
    
     //var items: [Item] = []
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -68,7 +69,7 @@ class MCViewController: UIViewController, UICollectionViewDataSource, UITableVie
         let myCell = tableView.dequeueReusableCell(withIdentifier: "theTabCell")! as UITableViewCell
         
         
-        myCell.textLabel!.text = String(myArray[indexPath.row])
+        myCell.textLabel!.text = stringArray[indexPath.row] +  String(myArray[indexPath.row])
         
         return myCell
         
@@ -84,6 +85,8 @@ class MCViewController: UIViewController, UICollectionViewDataSource, UITableVie
         let damage  = stats.integer(forKey: "damage")
         
         myArray = [crowns, health, damage]
+        
+        
         
         
         for item in itemsCollected{
