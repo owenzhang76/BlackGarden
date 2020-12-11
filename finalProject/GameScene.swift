@@ -52,8 +52,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     
     
-    
-    
+
+//    let baseBar = [SKSpriteNode spriteNodeWithColor:[UIColor redColor] size:CGSizeMake(CGRectGetMidX(self.frame)-40, self.frame.size.height/10)]
+//
     let map = SKNode()
     
     func makeNoiseMap(columns: Int, rows: Int) -> GKNoiseMap {
@@ -220,6 +221,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                     mainCharacter.health -= 10
                     print("has sword")
                     print(mainCharacter.health)
+                    //mainCharacter.updateHealth();
                     UserDefaults.standard.set(mainCharacter.health, forKey: "health")
                     rav.takeDamage(damage:50) //Sword damage is 50
                     if (rav.health <= 0) {
@@ -228,6 +230,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 }
                 else if distance <= CGFloat(maxGunDistance) && mainCharacter.hasGun {
                     mainCharacter.health -= 10
+                    //mainCharacter.updateHealth();
                     UserDefaults.standard.set(mainCharacter.health, forKey: "health")
                     rav.takeDamage(damage:35) //Gun damage is 35
                     print("has gun")
@@ -238,6 +241,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 }
                 else if distance <= CGFloat(maxSwordDistance) { //Player is unarmed
                     mainCharacter.health -= 10
+                    //mainCharacter.updateHealth();
                     UserDefaults.standard.set(mainCharacter.health, forKey: "health")
                     print("unarmed")
                     print(mainCharacter.health)
@@ -362,10 +366,23 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 if tI.name == "crown" {
                     print("touched a crown")
                     var crowns = stats.integer(forKey: "crowns")
-                    crowns += 1
-                    print(crowns)
-                    UserDefaults.standard.set(crowns, forKey: "crowns")
-                    //This is where compass code gets implemented. Display text on a crown location somewhere.
+                    if(crowns == 5){
+//                    let gameView = GameViewController()
+//                    let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+//                    let controller = storyboard.instantiateViewController(withIdentifier: "WinViewController")
+//                        self.
+//                    gameView.pushViewController(controller, animated: false)
+//                        let gameView = WinViewCon
+//                        navigationController?.pushViewController(gameView, animated: true)
+                        print("you win! yay")
+                      
+                    }
+                    else{
+                        crowns += 1
+                        UserDefaults.standard.set(crowns, forKey: "crowns")
+                    }
+                    
+                   // This is where compass code gets implemented. Display text on a crown location somewhere.
                     tI.removeFromParent()
                 }
             }

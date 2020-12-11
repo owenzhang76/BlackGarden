@@ -24,7 +24,7 @@ class MCViewController: UIViewController, UICollectionViewDataSource, UITableVie
     let shotgun = Item(image: UIImage(named: "black_garden_shotgun_1")!, itemName: "shotgun")
     let sword = Item(image: UIImage(named: "black_garden_sword_1")!, itemName: "sword")
    
-    let stringArray: [String] = ["Crown Count: ", "Health: ", "Damage: "]
+    let stringArray: [String] = ["Crown Count: ", "Health: ",]
    
     //var items: [Item] = []
     
@@ -82,9 +82,9 @@ class MCViewController: UIViewController, UICollectionViewDataSource, UITableVie
         let stats = UserDefaults.standard
         let crowns = stats.integer(forKey: "crowns")
         let health  = stats.integer(forKey: "health")
-        let damage  = stats.integer(forKey: "damage")
+        //let damage  = stats.integer(forKey: "damage")
         
-        myArray = [crowns, health, damage]
+        myArray = [crowns, health]
         
         
         

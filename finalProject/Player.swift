@@ -10,6 +10,7 @@ import UIKit
 import SpriteKit
 
 class Player:CharacterProtocol {
+   
     var health:Int = 100
     var location = vector2(Int32(), Int32())
     var speed:Double
@@ -56,5 +57,10 @@ class Player:CharacterProtocol {
     func die() {
         
     }
+    
+//    func updateHealth() {
+//        health = UserDefaults.standard.integer(forKey: "health")
+//        
+//    }
 }
 
