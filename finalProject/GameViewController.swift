@@ -30,6 +30,7 @@ class GameViewController: UIViewController {
                 view.presentScene(scene)
             }
             
+            
             view.ignoresSiblingOrder = true
             
             view.showsFPS = true
@@ -40,6 +41,16 @@ class GameViewController: UIViewController {
     
     }
 
+    //function that pushes on win view controller
+    
+    func pushWinView() {
+        print("hi")
+        //let winVC = WinViewController()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "WinViewController")
+        self.present(controller, animated: true, completion: nil)
+        
+    }
     override var shouldAutorotate: Bool {
         return true
     }

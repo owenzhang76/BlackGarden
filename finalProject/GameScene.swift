@@ -366,8 +366,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 if tI.name == "crown" {
                     print("touched a crown")
                     var crowns = stats.integer(forKey: "crowns")
-                    if(crowns == 5){
-//                    let gameView = GameViewController()
+                    crowns = 0
+                    if(crowns == 0){
+                        
+                        
+                    let gameView = GameViewController()
+                    gameView.pushWinView()
 //                    let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
 //                    let controller = storyboard.instantiateViewController(withIdentifier: "WinViewController")
 //                        self.
