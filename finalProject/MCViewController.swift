@@ -70,6 +70,8 @@ class MCViewController: UIViewController, UICollectionViewDataSource, UITableVie
         
         
         myCell.textLabel!.text = stringArray[indexPath.row] +  String(myArray[indexPath.row])
+        myCell.backgroundColor = UIColor.systemGray
+        myCell.textLabel?.textColor = UIColor.white
         
         return myCell
         

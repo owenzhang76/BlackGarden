@@ -49,7 +49,7 @@ class GameViewController: UIViewController {
 //        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "WinViewController") as? WinViewController
 //        self.navigationController?.pushViewController(vc!, animated: true)
       
-        //self.performSegue(withIdentifier: "win", sender: nil)
+        self.performSegue(withIdentifier: "win", sender: nil)
        // self.present(winVC, animated: true, completion: nil)
 
         

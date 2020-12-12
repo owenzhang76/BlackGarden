@@ -372,19 +372,33 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 if tI.name == "crown" {
                     print("touched a crown")
                     var crowns = stats.integer(forKey: "crowns")
-                    crowns = 0
-                    if(crowns == 0){
+        
+                    if(crowns == 4){
+                        
+                        let label = UILabel(frame: CGRect(x: 0 , y:0, width: (self.view?.frame.width)!, height: (self.view?.frame.height)!))
+                        label.center = CGPoint(x: (self.view?.center.x)!, y: (self.view?.center.y)! )
+                        label.backgroundColor = UIColor.black
+                        label.textAlignment = .center
+                        label.text = "You Win"
+                        label.textColor = UIColor.white
+
+                        self.view?.addSubview(label)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { // Change `2.0` to the desired number of seconds.
+                        
+                            for view in self.view!.subviews {
+                                if (view.isKind(of: UILabel.self)) {
+                                    view.removeFromSuperview()
+                                }
+                            }
+                            
+                        }
                         
                         
-                    let gameView = GameViewController()
-                    gameView.pushWinView()
-//                    let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-//                    let controller = storyboard.instantiateViewController(withIdentifier: "WinViewController")
-//                        self.
-//                    gameView.pushViewController(controller, animated: false)
-//                        let gameView = WinViewCon
-//                        navigationController?.pushViewController(gameView, animated: true)
-                       // print("you win! yay")
+                        UserDefaults.standard.set(0, forKey: "crowns")
+                        UserDefaults.standard.set(100, forKey: "health")
+                        UserDefaults.standard.set([], forKey: "playerItems")
+                        
                       
                     }
                     else{
@@ -403,12 +417,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                     
                     //print("touched Raven no item")
                     if (health > 0) {
-                        health -= 0.0075
+                        health -= 0.05
                     }
                     else {
                         //losing condition, player death
-                        UserDefaults.standard.set(100.0, forKey: "health")
-                        health = 100.0
+                      
+                                             
+                        UserDefaults.standard.set(0, forKey: "crowns")
+                        UserDefaults.standard.set(100, forKey: "health")
+                        UserDefaults.standard.set([], forKey: "playerItems")
+                                             
                         
                     }
 
