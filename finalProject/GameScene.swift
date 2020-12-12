@@ -378,7 +378,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
 //                    gameView.pushViewController(controller, animated: false)
 //                        let gameView = WinViewCon
 //                        navigationController?.pushViewController(gameView, animated: true)
-                        print("you win! yay")
+                       // print("you win! yay")
                       
                     }
                     else{

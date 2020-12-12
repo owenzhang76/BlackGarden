@@ -14,9 +14,6 @@ class GameViewController: UIViewController {
     
 
     
-  
-    @IBOutlet weak var healthBar: UIProgressView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,11 +43,18 @@ class GameViewController: UIViewController {
     func pushWinView() {
         print("hi")
         //let winVC = WinViewController()
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "WinViewController")
-        self.present(controller, animated: true, completion: nil)
+ //       navigationController?.pushViewController(winVC, animated: true)
+        //let winVC = WinViewController()
+//        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "WinViewController") as? WinViewController
+//        self.navigationController?.pushViewController(vc!, animated: true)
+      
+        //self.performSegue(withIdentifier: "win", sender: nil)
+       // self.present(winVC, animated: true, completion: nil)
+
         
     }
+    
+    
     override var shouldAutorotate: Bool {
         return true
     }

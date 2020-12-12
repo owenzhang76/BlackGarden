@@ -11,6 +11,7 @@ import UIKit
 class WinViewController: UIViewController {
 
     override func viewDidLoad() {
+        print("In win view controller")
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
