@@ -81,7 +81,7 @@ class MCViewController: UIViewController, UICollectionViewDataSource, UITableVie
         super.viewDidLoad()
         let stats = UserDefaults.standard
         let crowns = stats.integer(forKey: "crowns")
-        let health  = stats.integer(forKey: "health")
+        let health  = Int(stats.double(forKey: "health"))
         //let damage  = stats.integer(forKey: "damage")
         
         myArray = [crowns, health]

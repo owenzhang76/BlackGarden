@@ -11,7 +11,7 @@ import SpriteKit
 
 class Player:CharacterProtocol {
    
-    var health:Int = 100
+    var health: Double = 100.00
     var location = vector2(Int32(), Int32())
     var speed:Double
     var damage:Int = 20
@@ -20,18 +20,20 @@ class Player:CharacterProtocol {
     var position:CGPoint
     var crownCount: Int = 0
     var didWin: Bool = false
+    var ravensTouched : Int
     
     //Handling the items this way is much easier.
     var hasSword: Bool = false
     var hasGun: Bool = false
     
-    init(fromHealth health:Int, fromLocation location:simd_int2, fromSpeed speed:Double, fromDamage damage:Int, fromPosition position:CGPoint, fromItems items: [Item], fromImage image: SKSpriteNode) {
+    init(fromHealth health: Double, fromLocation location:simd_int2, fromSpeed speed:Double, fromDamage damage:Int, fromPosition position:CGPoint, fromItems items: [Item], fromImage image: SKSpriteNode, forRavensTouched ravensTouched:Int) {
         self.health = health
         self.location = location
         self.speed = speed
         self.damage = damage
         self.position = position
         self.image = image
+        self.ravensTouched = ravensTouched
     }
     
     func collectItem() {

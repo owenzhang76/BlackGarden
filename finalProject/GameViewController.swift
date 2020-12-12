@@ -42,6 +42,7 @@ class GameViewController: UIViewController {
     
     func pushWinView() {
         print("hi")
+      
         //let winVC = WinViewController()
  //       navigationController?.pushViewController(winVC, animated: true)
         //let winVC = WinViewController()
@@ -53,6 +54,12 @@ class GameViewController: UIViewController {
 
         
     }
+    
+//    override func show(_ vc: UIViewController, sender: Any?) {
+//         self.remove()
+//         contentViewController = vc
+//         add(vc)
+//     }
     
     
     override var shouldAutorotate: Bool {

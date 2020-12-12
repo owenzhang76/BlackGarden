@@ -25,7 +25,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     // Scene Nodes
     var car:SKSpriteNode!
     //var mainCharacter = SKSpriteNode()
-    var mainCharacter = Player(fromHealth: 100, fromLocation: vector2(Int32(0), Int32(0)), fromSpeed: 0.0, fromDamage: 50, fromPosition: CGPoint(x: 0.0,y: 0.0), fromItems: [Item](), fromImage: SKSpriteNode(imageNamed: "qye_idle_1.png"))
+    var mainCharacter = Player(fromHealth: 100.00, fromLocation: vector2(Int32(0), Int32(0)), fromSpeed: 0.0, fromDamage: 50, fromPosition: CGPoint(x: 0.0,y: 0.0), fromItems: [Item](), fromImage: SKSpriteNode(imageNamed: "qye_idle_1.png"), forRavensTouched: 0)
     var qyeIdleAtlas = SKTextureAtlas()
     var qyeIdleArray = [SKTexture]()
     var qyeWalkAtlas = SKTextureAtlas()
@@ -200,16 +200,21 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }
     
    
+   
     func touchUp(atPoint pos : CGPoint) {
         
         let positionInScene = pos
         let touchedNode = self.atPoint(positionInScene)
+        //print("touched Item")
+       // print(touchedNode.name)
        // print("here: ")
        // print(touchedNode.name)
-        mainCharacter.health = 100
-        UserDefaults.standard.set(mainCharacter.health, forKey: "health")
-        print(mainCharacter.health)
+        //mainCharacter.health = 100
+        //UserDefaults.standard.set(mainCharacter.health, forKey: "health")
+        //print(mainCharacter.health)
         if touchedNode.name == "raven" {
+            //mainCharacter.health -= 10
+          
             let mcPos = mainCharacter.position
             let maxSwordDistance = 100.0 //Minimum distance for hand to hand combat.
             let maxGunDistance = 300.0 //Minimum distance for gunshot.
@@ -218,39 +223,39 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             let distance = sqrt(dx*dx + dy*dy)
             if let rav = touchedNode as? Raven {
                 if distance <= CGFloat(maxSwordDistance) && mainCharacter.hasSword {
-                    mainCharacter.health -= 10
-                    print("has sword")
-                    print(mainCharacter.health)
+                    
+//                    print("has sword")
+//                    print(mainCharacter.health)
                     //mainCharacter.updateHealth();
-                    UserDefaults.standard.set(mainCharacter.health, forKey: "health")
+                    
                     rav.takeDamage(damage:50) //Sword damage is 50
                     if (rav.health <= 0) {
                         rav.removeFromParent()
                     }
                 }
                 else if distance <= CGFloat(maxGunDistance) && mainCharacter.hasGun {
-                    mainCharacter.health -= 10
+                    //mainCharacter.health -= 10
                     //mainCharacter.updateHealth();
-                    UserDefaults.standard.set(mainCharacter.health, forKey: "health")
+                    //UserDefaults.standard.set(mainCharacter.health, forKey: "health")
                     rav.takeDamage(damage:35) //Gun damage is 35
-                    print("has gun")
                     print(mainCharacter.health)
                     if (rav.health <= 0) {
                         rav.removeFromParent()
                     }
                 }
                 else if distance <= CGFloat(maxSwordDistance) { //Player is unarmed
-                    mainCharacter.health -= 10
+                   // mainCharacter.health -= 10
                     //mainCharacter.updateHealth();
-                    UserDefaults.standard.set(mainCharacter.health, forKey: "health")
-                    print("unarmed")
-                    print(mainCharacter.health)
+                    //UserDefaults.standard.set(mainCharacter.health, forKey: "health")
+//                    print("unarmed")
+//                    print(mainCharacter.health)
+               
                     rav.takeDamage(damage:20) //Fist damage is 20
                     if (rav.health <= 0) {
                         rav.removeFromParent()
                     }
                 }
-                print(rav.health)
+               // print(rav.health)
             }
             return //We attacked the raven instead of moving.
         }
@@ -322,6 +327,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         //print(mainCharacter.image.physicsBody.)
         
         var damage = stats.integer(forKey: "damage")
+        var health = stats.double(forKey: "health")
         damage = 20
         if mainCharacter.image.physicsBody?.allContactedBodies().count ?? 0 > 0 {
             //print(mainCharacter.image.physicsBody?.allContactedBodies())
@@ -390,6 +396,30 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                     tI.removeFromParent()
                 }
             }
+        
+            if let tI = touchedItem{
+                if tI.name == "raven" {
+                    mainCharacter.ravensTouched += 1
+                    
+                    //print("touched Raven no item")
+                    if (health > 0) {
+                        health -= 0.0075
+                    }
+                    else {
+                        //losing condition, player death
+                        UserDefaults.standard.set(100.0, forKey: "health")
+                        health = 100.0
+                        
+                    }
+
+                    //mainCharacter.position.
+                    UserDefaults.standard.set(health, forKey: "health")
+                    //print(health)
+                    
+                    
+               }
+            }
+            
         }
         
         //print(array)
