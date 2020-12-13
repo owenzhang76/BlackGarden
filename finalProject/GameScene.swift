@@ -20,7 +20,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var targetLocation: CGPoint = .zero
     
     // other variables
-    var enemiesArray = [RavenEnemy]();
+    var enemiesArray = [String]();
     
     // Scene Nodes
     var car:SKSpriteNode!
@@ -43,6 +43,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     let stats = UserDefaults.standard
     //var health : Int
+    
+    var enemiesUserDefault = UserDefaults.standard.stringArray(forKey: "enemiesUserDefault") ?? []
+    var playerLocationDefault = UserDefaults.standard.string(forKey: "playerLocationDefault")
     
   
       
@@ -85,8 +88,16 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             spawnRaven(positionX: xPos, positionY: yPos)
             numRavensPlaced = numRavensPlaced + 1
         }
-        print("position",pX,pY)
+        //print("position",pX,pY)
         spawnRaven(positionX: pX, positionY: pY)
+        UserDefaults.standard.set(enemiesArray, forKey: "enemiesUserDefault")
+        let tempRavenArray = UserDefaults.standard.stringArray(forKey: "enemiesUserDefault")
+        
+        
+        //print("pringing raven locations:")
+        for location in tempRavenArray!{
+            //print(location)
+        }
     }
     
     override func didMove(to view: SKView) {
@@ -191,11 +202,26 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("move player to new location")
+       
         let touch = touches.first
         if let location = touch?.location(in: self){
             startTouch = location
             nodePosition = mainCharacter.image.position
+           // print("node position:")
+            print(nodePosition)
+            UserDefaults.standard.set(NSCoder.string(for: nodePosition), forKey: "playerLocationDefault")
+            let tempCharLoc = UserDefaults.standard.string(forKey: "playerLocationDefault")
+//            print("printing char location: ")
+//            print(tempCharLoc)
+            
+            
         }
+         //store player location in player user default
+       
+        
+        
+        
         mainCharacter.image.run(SKAction.repeatForever(SKAction.animate(with: qyeWalkArray, timePerFrame: 0.08)), withKey: "walk")
     }
     
@@ -261,6 +287,10 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 }
                 
                 if (rav.health <= 0) {
+                    if let index = enemiesArray.firstIndex(of: NSCoder.string(for: rav.position)) {
+                        enemiesArray.remove(at: index)
+                    }
+                    UserDefaults.standard.set(enemiesArray, forKey: "enemiesUserDefault")
                     rav.removeFromParent()
                 }
 //                // within 100 and player has sword only
@@ -478,7 +508,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     
     func spawnItems() {
         var numCrownsPlaced = 0
-        while (numCrownsPlaced < 5) { //Currently places 5 crowns
+        while (numCrownsPlaced < 5 - UserDefaults.standard.integer(forKey: "crowns")) { //Currently places 5 crowns
             let xPos = Double(Int.random(in: -1616..<1616))
             let yPos = Double(Int.random(in: -1616..<1616))
             let adjustedX = ((xPos / 1616)*64) + 64
@@ -609,6 +639,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         rav2spawn.position = positionToSpawn;
         rav2spawn.zPosition = 2
         self.addChild(rav2spawn);
+        enemiesArray.append(NSCoder.string(for: rav2spawn.position))
         rav2spawn.run(SKAction.repeatForever(SKAction.animate(with: frames, timePerFrame: 0.2)), withKey: "idle")
     }
     

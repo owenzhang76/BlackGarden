@@ -40,27 +40,10 @@ class GameViewController: UIViewController {
 
     //function that pushes on win view controller
     
-    func pushWinView() {
-        print("hi")
-      
-        //let winVC = WinViewController()
- //       navigationController?.pushViewController(winVC, animated: true)
-        //let winVC = WinViewController()
-//        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "WinViewController") as? WinViewController
-//        self.navigationController?.pushViewController(vc!, animated: true)
-      
-        self.performSegue(withIdentifier: "win", sender: nil)
-       // self.present(winVC, animated: true, completion: nil)
-
+    func playerLocation() {
         
     }
-    
-//    override func show(_ vc: UIViewController, sender: Any?) {
-//         self.remove()
-//         contentViewController = vc
-//         add(vc)
-//     }
-    
+
     
     override var shouldAutorotate: Bool {
         return true
