@@ -25,7 +25,17 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     // Scene Nodes
     var car:SKSpriteNode!
     //var mainCharacter = SKSpriteNode()
-    var mainCharacter = Player(fromHealth: 100.00, fromLocation: vector2(Int32(0), Int32(0)), fromSpeed: 0.0, fromDamage: 50, fromPosition: CGPoint(x: 0.0,y: 0.0), fromItems: [Item](), fromImage: SKSpriteNode(imageNamed: "qye_idle_1.png"), forRavensTouched: 0)
+   // playerLocationDefault.
+     var mainCharacter = Player(fromHealth: 100.00, fromLocation: vector2(Int32(0), Int32(0)), fromSpeed: 0.0, fromDamage: 50, fromPosition: CGPoint(x: 0,y: 0), fromItems: [Item](), fromImage: SKSpriteNode(imageNamed: "qye_idle_1.png"), forRavensTouched: 0)
+    
+//    if (playerLocationDefault != "") {
+//        let x = CGPointFromString(playerLocationDefault).x
+//        let y = CGPointFromString(playerLocationDefault).y
+//
+//        var mainCharacter = Player(fromHealth: 100.00, fromLocation: vector2(Int32(0), Int32(0)), fromSpeed: 0.0, fromDamage: 50, fromPosition: CGPoint(x: x,y: y), fromItems: [Item](), fromImage: SKSpriteNode(imageNamed: "qye_idle_1.png"), forRavensTouched: 0)
+//    }
+
+    
     var qyeIdleAtlas = SKTextureAtlas()
     var qyeIdleArray = [SKTexture]()
     var qyeWalkAtlas = SKTextureAtlas()
@@ -82,22 +92,34 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         let pX = 151.5;
         let pY = 151.5;
         var numRavensPlaced = 0
-        while (numRavensPlaced < 25) { //Currently places 25 enemies
-            let xPos = Double(Int.random(in: -1616..<1616))
-            let yPos = Double(Int.random(in: -1616..<1616))
-            spawnRaven(positionX: xPos, positionY: yPos)
-            numRavensPlaced = numRavensPlaced + 1
+        
+        if enemiesUserDefault.isEmpty{
+            while (numRavensPlaced < 25) { //Currently places 25 enemies
+                let xPos = Double(Int.random(in: -1616..<1616))
+                let yPos = Double(Int.random(in: -1616..<1616))
+                spawnRaven(positionX: xPos, positionY: yPos)
+                numRavensPlaced = numRavensPlaced + 1
+            }
         }
+        
+        else{
+            for item in enemiesUserDefault {
+                var currItemPoint = NSCoder.cgPoint(for: item)
+                spawnRaven(positionX: Double(currItemPoint.x), positionY: Double(currItemPoint.y))
+            }
+        }
+        
+       
         //print("position",pX,pY)
-        spawnRaven(positionX: pX, positionY: pY)
+        //spawnRaven(positionX: pX, positionY: pY)
         UserDefaults.standard.set(enemiesArray, forKey: "enemiesUserDefault")
-        let tempRavenArray = UserDefaults.standard.stringArray(forKey: "enemiesUserDefault")
+        //let tempRavenArray = UserDefaults.standard.stringArray(forKey: "enemiesUserDefault")
         
         
         //print("pringing raven locations:")
-        for location in tempRavenArray!{
-            //print(location)
-        }
+//        for location in tempRavenArray!{
+//            //print(location)
+//        }
     }
     
     override func didMove(to view: SKView) {
@@ -211,7 +233,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
            // print("node position:")
             print(nodePosition)
             UserDefaults.standard.set(NSCoder.string(for: nodePosition), forKey: "playerLocationDefault")
-            let tempCharLoc = UserDefaults.standard.string(forKey: "playerLocationDefault")
+            //let tempCharLoc = UserDefaults.standard.string(forKey: "playerLocationDefault")
+            
+            
 //            print("printing char location: ")
 //            print(tempCharLoc)
             
@@ -461,6 +485,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                         UserDefaults.standard.set(0, forKey: "crowns")
                         UserDefaults.standard.set(100, forKey: "health")
                         UserDefaults.standard.set([], forKey: "playerItems")
+                        UserDefaults.standard.set([], forKey:"enemiesUserDefault")
                         
                       
                     }
