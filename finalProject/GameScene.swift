@@ -30,6 +30,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var qyeIdleArray = [SKTexture]()
     var qyeWalkAtlas = SKTextureAtlas()
     var qyeWalkArray = [SKTexture]()
+    var qyeAttackAtlas = SKTextureAtlas()
+    var qyeAttackArray = [SKTexture]()
     var nodePosition = CGPoint()
     var startTouch = CGPoint()
     var mainNoiseMap = GKNoiseMap()
@@ -116,6 +118,11 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             qyeWalkArray.append(SKTexture(imageNamed: name));
         }
         
+        qyeAttackAtlas = SKTextureAtlas(named: "QyeAttack4");
+        for i in 0...qyeAttackAtlas.textureNames.count - 1 {
+            let name = "qye_attack_\(i).png";
+            qyeAttackArray.append(SKTexture(imageNamed: name));
+        }
         //mainCharacter.image = SKSpriteNode(imageNamed: "qye_idle_1.png")
         mainCharacter.image.size = CGSize(width: 70, height: 64)
         mainCharacter.image.physicsBody = SKPhysicsBody(circleOfRadius: 25.0)
@@ -221,41 +228,67 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             let dx = mcPos.x - touchedNode.position.x
             let dy = mcPos.y - touchedNode.position.y
             let distance = sqrt(dx*dx + dy*dy)
+            var isAttack = false;
+            
             if let rav = touchedNode as? Raven {
-                if distance <= CGFloat(maxSwordDistance) && mainCharacter.hasSword {
-                    
-//                    print("has sword")
-//                    print(mainCharacter.health)
-                    //mainCharacter.updateHealth();
-                    
-                    rav.takeDamage(damage:50) //Sword damage is 50
-                    if (rav.health <= 0) {
-                        rav.removeFromParent()
-                    }
-                }
-                else if distance <= CGFloat(maxGunDistance) && mainCharacter.hasGun {
-                    //mainCharacter.health -= 10
-                    //mainCharacter.updateHealth();
-                    //UserDefaults.standard.set(mainCharacter.health, forKey: "health")
+                print("fuck me")
+                print(distance);
+                print(mainCharacter.hasGun);
+                print(mainCharacter.hasSword);
+                // within max hit distance and player only has a gun
+                if distance <= CGFloat(maxGunDistance) && mainCharacter.hasGun {
+                    print("gun distance gun damage")
                     rav.takeDamage(damage:35) //Gun damage is 35
                     print(mainCharacter.health)
-                    if (rav.health <= 0) {
-                        rav.removeFromParent()
-                    }
-                }
-                else if distance <= CGFloat(maxSwordDistance) { //Player is unarmed
-                   // mainCharacter.health -= 10
-                    //mainCharacter.updateHealth();
-                    //UserDefaults.standard.set(mainCharacter.health, forKey: "health")
-//                    print("unarmed")
-//                    print(mainCharacter.health)
-               
+                    isAttack = true;
+                } else if distance <= CGFloat(maxSwordDistance) && !mainCharacter.hasGun && mainCharacter.hasSword {
+                    print("sword distance sword damage")
                     rav.takeDamage(damage:20) //Fist damage is 20
-                    if (rav.health <= 0) {
-                        rav.removeFromParent()
-                    }
+                    isAttack = true;
+                    // within sword range and player has sword
+                } else if distance <= CGFloat(maxGunDistance) && mainCharacter.hasSword && !mainCharacter.hasGun {
+                    // within max hit distance and player only has sword
+                    // nothing should happen
+                    print("241")
+                } else if distance <= CGFloat(maxSwordDistance) && !mainCharacter.hasSword && !mainCharacter.hasGun {
+                     print("242");
+                    // within sword range and player has has nothing
+                    // nothing should happen
+                } else {
+                    print("246")
+                    // within max distance and player has nothing
+                    // nothing should happen
                 }
-               // print(rav.health)
+                
+                if (rav.health <= 0) {
+                    rav.removeFromParent()
+                }
+//                // within 100 and player has sword only
+//                if distance <= CGFloat(maxSwordDistance) && mainCharacter.hasSword {
+//                    rav.takeDamage(damage:50) //Sword damage is 50
+//                    if (rav.health <= 0) {
+//                        rav.removeFromParent()
+//                    }
+//                }
+//                // within 300 and player has gun only
+//                else if distance <= CGFloat(maxGunDistance) && mainCharacter.hasGun {
+//                    rav.takeDamage(damage:35) //Gun damage is 35
+//                    print(mainCharacter.health)
+//                    if (rav.health <= 0) {
+//                        rav.removeFromParent()
+//                    }
+//                }
+//                // within 100 and player doesn't have anything
+//                else if distance <= CGFloat(maxSwordDistance) { //Player is unarmed
+//                    rav.takeDamage(damage:20) //Fist damage is 20
+//                    if (rav.health <= 0) {
+//                        rav.removeFromParent()
+//                    }
+//                }
+            }
+            
+            if(isAttack) {
+                mainCharacter.image.run(SKAction.animate(with: qyeAttackArray, timePerFrame: 0.08), withKey: "attack")
             }
             return //We attacked the raven instead of moving.
         }
