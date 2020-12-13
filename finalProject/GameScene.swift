@@ -16,6 +16,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
+    var playerLocationDefault = UserDefaults.standard.string(forKey: "playerLocationDefault")
+    
     // touch location
     var targetLocation: CGPoint = .zero
     
@@ -26,7 +28,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var car:SKSpriteNode!
     //var mainCharacter = SKSpriteNode()
    // playerLocationDefault.
-     var mainCharacter = Player(fromHealth: 100.00, fromLocation: vector2(Int32(0), Int32(0)), fromSpeed: 0.0, fromDamage: 50, fromPosition: CGPoint(x: 0,y: 0), fromItems: [Item](), fromImage: SKSpriteNode(imageNamed: "qye_idle_1.png"), forRavensTouched: 0)
+    var mainCharacter = Player(fromHealth: 100.00, fromLocation: vector2(Int32(0), Int32(0)), fromSpeed: 0.0, fromDamage: 50, fromPosition: CGPoint(x: 0,y: 0), fromItems: [Item](), fromImage: SKSpriteNode(imageNamed: "qye_idle_1.png"), forRavensTouched: 0)
     
 //    if (playerLocationDefault != "") {
 //        let x = CGPointFromString(playerLocationDefault).x
@@ -55,7 +57,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     //var health : Int
     
     var enemiesUserDefault = UserDefaults.standard.stringArray(forKey: "enemiesUserDefault") ?? []
-    var playerLocationDefault = UserDefaults.standard.string(forKey: "playerLocationDefault")
+    
     
   
       
@@ -89,10 +91,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         cameraNode.position = CGPoint(x: 0, y: 0)
         self.addChild(cameraNode)
         self.camera = cameraNode
-        let pX = 151.5;
-        let pY = 151.5;
         var numRavensPlaced = 0
-        
+        print("loc default",playerLocationDefault)
+        let x = NSCoder.cgPoint(for: playerLocationDefault ?? "0").x
+        let y = NSCoder.cgPoint(for: playerLocationDefault ?? "0").y
+        mainCharacter.position =  CGPoint(x: x,y: y)
+        mainCharacter.image.position = CGPoint(x: x,y: y)
+        print("main char pos",mainCharacter.position)
         if enemiesUserDefault.isEmpty{
             while (numRavensPlaced < 25) { //Currently places 25 enemies
                 let xPos = Double(Int.random(in: -1616..<1616))
@@ -232,14 +237,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             nodePosition = mainCharacter.image.position
            // print("node position:")
             print(nodePosition)
-            UserDefaults.standard.set(NSCoder.string(for: nodePosition), forKey: "playerLocationDefault")
-            //let tempCharLoc = UserDefaults.standard.string(forKey: "playerLocationDefault")
-            
-            
-//            print("printing char location: ")
-//            print(tempCharLoc)
-            
-            
         }
          //store player location in player user default
        
@@ -262,13 +259,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         
         let positionInScene = pos
         let touchedNode = self.atPoint(positionInScene)
-        //print("touched Item")
-       // print(touchedNode.name)
-       // print("here: ")
-       // print(touchedNode.name)
-        //mainCharacter.health = 100
-        //UserDefaults.standard.set(mainCharacter.health, forKey: "health")
-        //print(mainCharacter.health)
         if touchedNode.name == "raven" {
             //mainCharacter.health -= 10
           
@@ -289,7 +279,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                 if distance <= CGFloat(maxGunDistance) && mainCharacter.hasGun {
                     print("gun distance gun damage")
                     rav.takeDamage(damage:35) //Gun damage is 35
-                    print(mainCharacter.health)
+                    //print(mainCharacter.health)
                     isAttack = true;
                 } else if distance <= CGFloat(maxSwordDistance) && !mainCharacter.hasGun && mainCharacter.hasSword {
                     print("sword distance sword damage")
@@ -317,28 +307,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                     UserDefaults.standard.set(enemiesArray, forKey: "enemiesUserDefault")
                     rav.removeFromParent()
                 }
-//                // within 100 and player has sword only
-//                if distance <= CGFloat(maxSwordDistance) && mainCharacter.hasSword {
-//                    rav.takeDamage(damage:50) //Sword damage is 50
-//                    if (rav.health <= 0) {
-//                        rav.removeFromParent()
-//                    }
-//                }
-//                // within 300 and player has gun only
-//                else if distance <= CGFloat(maxGunDistance) && mainCharacter.hasGun {
-//                    rav.takeDamage(damage:35) //Gun damage is 35
-//                    print(mainCharacter.health)
-//                    if (rav.health <= 0) {
-//                        rav.removeFromParent()
-//                    }
-//                }
-//                // within 100 and player doesn't have anything
-//                else if distance <= CGFloat(maxSwordDistance) { //Player is unarmed
-//                    rav.takeDamage(damage:20) //Fist damage is 20
-//                    if (rav.health <= 0) {
-//                        rav.removeFromParent()
-//                    }
-//                }
             }
             
             if(isAttack) {
@@ -362,8 +330,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         while(i <= numSteps) {
             let xToRun = ((xlocDest - mainCharacter.image.position.x)*(CGFloat(i)/CGFloat(numSteps))) + ogMainCharacterPos.x
             let yToRun = ((ylocDest - mainCharacter.image.position.y)*(CGFloat(i)/CGFloat(numSteps))) + ogMainCharacterPos.y
-            let adjustedX = ((xToRun / 1616)*64) + 64
-            let adjustedY = ((yToRun / 1616)*64) + 64
+            let adjustedX = ((xToRun / 1616)*64) + 63
+            let adjustedY = ((yToRun / 1616)*64) + 63
             var speed = 0.005
             let location = vector2(Int32(adjustedY), Int32(adjustedX))
             let terrIndex = mainNoiseMap.value(at: location)
@@ -380,6 +348,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         mainCharacter.image.run(SKAction.sequence(actionsToDo), completion: {
             self.mainCharacter.image.removeAction(forKey: "walk");
         })
+
     }
 
     
@@ -397,21 +366,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         camera?.position.x = mainCharacter.image.position.x
         camera?.position.y = mainCharacter.image.position.y
         mainCharacter.position = mainCharacter.image.position
-        //print(mainCharacter.position,mainCharacter.image.position)
-        //let position = mainCharacter.image.position
-        //let positionTwo = mainCharacter.position
-        //let column = landBackground.tileColumnIndex(fromPosition: position)
-        //let row = landBackground.tileRowIndex(fromPosition: position)
-        //let tile = landBackground.tileDefinition(atColumn: column, row: row)
-        //let adjustedX = ((mainCharacter.image.position.x / 1616)*64) + 64
-        //let adjustedY = ((mainCharacter.image.position.y / 1616)*64) + 64
-        //let location = vector2(Int32(adjustedY), Int32(adjustedX))
-        //let locationTwo = vector2(Int32(adjustedYTwo), Int32(adjustedXTwo))
-        //print(position)
-        //print(mainNoiseMap.value(at: location))0
-        //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1615))))
-        //print(mainNoiseMap.value(at: vector2(Int32(20), Int32(1616))))
-        //print(mainCharacter.image.physicsBody.)
         
         var damage = stats.integer(forKey: "damage")
         var health = stats.double(forKey: "health")
@@ -502,20 +456,13 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             if let tI = touchedItem{
                 if tI.name == "raven" {
                     mainCharacter.ravensTouched += 1
-                    
-                    //print("touched Raven no item")
                     if (health > 0) {
-                        health -= 0.05
+                        health -= 0.5
                     }
                     else {
-                        //losing condition, player death
-                      
-                                             
                         UserDefaults.standard.set(0, forKey: "crowns")
                         UserDefaults.standard.set(100, forKey: "health")
                         UserDefaults.standard.set([], forKey: "playerItems")
-                                             
-                        
                     }
 
                     //mainCharacter.position.
@@ -525,9 +472,38 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
                     
                }
             }
+        }
+        //print(health)
+        if (health <= 0) {
+            let label = UILabel(frame: CGRect(x: 0 , y:0, width: (self.view?.frame.width)!, height: (self.view?.frame.height)!))
+            label.center = CGPoint(x: (self.view?.center.x)!, y: (self.view?.center.y)! )
+            label.backgroundColor = UIColor.black
+            label.textAlignment = .center
+            label.text = "You Lost :("
+            label.textColor = UIColor.white
+
+            self.view?.addSubview(label)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { // Change `2.0` to the desired number of seconds.
+            
+                for view in self.view!.subviews {
+                    if (view.isKind(of: UILabel.self)) {
+                        view.removeFromSuperview()
+                    }
+                }
+                
+            }
+            
+            UserDefaults.standard.set(0, forKey: "crowns")
+            UserDefaults.standard.set(100, forKey: "health")
+            UserDefaults.standard.set([], forKey: "playerItems")
+            UserDefaults.standard.set([], forKey:"enemiesUserDefault")
+            UserDefaults.standard.set("0.0,0.0", forKey:"playerLocationDefault")
+            mainCharacter.position = CGPoint(x:0.0,y:0.0)
+            mainCharacter.image.position = CGPoint(x:0.0,y:0.0)
             
         }
-        
+        UserDefaults.standard.set(NSCoder.string(for: mainCharacter.image.position), forKey: "playerLocationDefault")
         //print(array)
     }
     
@@ -554,8 +530,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             }
         }
         
+        //Removed feature.
         var numCompassPlaced = 0
-        while (numCompassPlaced < 5) {
+        while (numCompassPlaced < 0) {
             let xPos = Double(Int.random(in: -1616..<1616))
             let yPos = Double(Int.random(in: -1616..<1616))
             let adjustedX = ((xPos / 1616)*64) + 64
