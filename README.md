@@ -34,6 +34,6 @@ Notice that player run speed can vary within a single tap (such as if you starte
 
 -The tile set we used is the default one, as creating a new one is a frankly excessive amount of artistic work for one individual to do. However, all of the sprite design (enemies, characters, and items) were done by hand. This took a while!
 
--The intro scene was modified to be nice and pretty (complete with pixel art for the play button!). Music was also added to enhance the user experience.
+-The intro scene was modified to be nice and pretty (complete with pixel art for the play button!). The image is used is copyright-free. Custom music was also added to enhance the user experience.
 
 -We cite 2 sources that helped us out with some of the most challenging parts of our project, mostly with getting the tile grid and noise maps working. See GameScene.swift for these sources.
