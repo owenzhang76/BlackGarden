@@ -100,6 +100,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         print("loc default",playerLocationDefault)
         let x = NSCoder.cgPoint(for: playerLocationDefault ?? "0").x
         let y = NSCoder.cgPoint(for: playerLocationDefault ?? "0").y
+        print("reload",x,y)
         mainCharacter.position =  CGPoint(x: x,y: y)
         mainCharacter.image.position = CGPoint(x: x,y: y)
         print("main char pos",mainCharacter.position)
@@ -520,7 +521,9 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             }
 
         }
-       
+        UserDefaults.standard.set(NSCoder.string(for: mainCharacter.image.position), forKey: "playerLocationDefault")
+        //print(array)
+        
     }
     
     func spawnItems() {
