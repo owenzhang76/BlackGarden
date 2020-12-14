@@ -7,16 +7,30 @@
 //
 
 import UIKit
+import AVFoundation
 
 class WinViewController: UIViewController {
-
+    
+ var introOST: AVPlayer!
     //help from https://stackoverflow.com/questions/27153181/how-do-you-make-a-background-image-scale-to-screen-size-in-swift  
     override func viewDidLoad() {
         print("In win view controller")
         super.viewDidLoad()
+        
+       
+        let path = Bundle.main.path(forResource: "introOST.mp3", ofType:nil)!
+        let url = URL(fileURLWithPath: path)
+
+
+        introOST = AVPlayer(url: url)
+        introOST.play()
+        print("playing OST");
+       
         //self.view.backgroundColor = UIColor(patternImage: UIImage(named:"black_garden_launch_image.png")!)
 
         self.view.addBackground()
+        
+        
         // Do any additional setup after loading the view.
     }
     

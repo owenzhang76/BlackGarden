@@ -19,6 +19,7 @@
 		5AB0D0C92585BC6800387F0F /* QyeAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5AB0D0C82585BC6800387F0F /* QyeAttack.atlas */; };
 		5AB0D0CB2585BCC900387F0F /* QyeAttack4.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5AB0D0CA2585BCC900387F0F /* QyeAttack4.atlas */; };
 		5AB0D0CD2586EB7700387F0F /* QyeDeath.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5AB0D0CC2586EB7700387F0F /* QyeDeath.atlas */; };
+		5AB0D0CF25873CE000387F0F /* introOST.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AB0D0CE25873CE000387F0F /* introOST.mp3 */; };
 		E47AD81D25673B970062603C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47AD81C25673B970062603C /* AppDelegate.swift */; };
 		E47AD81F25673B970062603C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E47AD81E25673B970062603C /* GameScene.sks */; };
 		E47AD82125673B970062603C /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E47AD82025673B970062603C /* Actions.sks */; };
@@ -63,6 +64,7 @@
 		5AB0D0C82585BC6800387F0F /* QyeAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = QyeAttack.atlas; sourceTree = "<group>"; };
 		5AB0D0CA2585BCC900387F0F /* QyeAttack4.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = QyeAttack4.atlas; sourceTree = "<group>"; };
 		5AB0D0CC2586EB7700387F0F /* QyeDeath.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = QyeDeath.atlas; sourceTree = "<group>"; };
+		5AB0D0CE25873CE000387F0F /* introOST.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = introOST.mp3; sourceTree = "<group>"; };
 		E47AD81925673B970062603C /* finalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = finalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E47AD81C25673B970062603C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E47AD81E25673B970062603C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 		E47AD81B25673B970062603C /* finalProject */ = {
 			isa = PBXGroup;
 			children = (
+				5AB0D0CE25873CE000387F0F /* introOST.mp3 */,
 				5AB0D0CC2586EB7700387F0F /* QyeDeath.atlas */,
 				5AB0D0CA2585BCC900387F0F /* QyeAttack4.atlas */,
 				5AB0D0C82585BC6800387F0F /* QyeAttack.atlas */,
@@ -288,6 +291,7 @@
 				5A7DA292257CC03A0037DBC9 /* QyeIdle.atlas in Resources */,
 				5AB0D0C92585BC6800387F0F /* QyeAttack.atlas in Resources */,
 				E47AD81F25673B970062603C /* GameScene.sks in Resources */,
+				5AB0D0CF25873CE000387F0F /* introOST.mp3 in Resources */,
 				E47AD82A25673B990062603C /* Assets.xcassets in Resources */,
 				4103A1B025782C520063FAEB /* QyeWalking.atlas in Resources */,
 				E47AD82D25673B990062603C /* LaunchScreen.storyboard in Resources */,

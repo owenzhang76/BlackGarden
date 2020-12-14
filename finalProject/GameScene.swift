@@ -8,6 +8,7 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
 class GameScene: SKScene,SKPhysicsContactDelegate {
     
@@ -29,6 +30,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     //var mainCharacter = SKSpriteNode()
    // playerLocationDefault.
     var mainCharacter = Player(fromHealth: 100.00, fromLocation: vector2(Int32(0), Int32(0)), fromSpeed: 0.0, fromDamage: 50, fromPosition: CGPoint(x: 0,y: 0), fromItems: [Item](), fromImage: SKSpriteNode(imageNamed: "qye_idle_1.png"), forRavensTouched: 0)
+    
+    var introOST: AVAudioPlayer?
     
 //    if (playerLocationDefault != "") {
 //        let x = CGPointFromString(playerLocationDefault).x
@@ -219,7 +222,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
        
     }
-    
     
     func touchDown(atPoint pos : CGPoint) {
         if let n = self.spinnyNode?.copy() as! SKShapeNode? {
@@ -480,8 +482,7 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         //print(health)
         if (health <= 0) {
             
-            mainCharacter.image.run(SKAction.animate(with: qyeDeathArray, timePerFrame: 0.08), withKey: "death")
-          
+            //mainCharacter.image.run(SKAction.animate(with: qyeDeathArray, timePerFrame: 0.08), withKey: "death")
              DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
 
              let label = UILabel(frame: CGRect(x: 0 , y:0, width: (self.view?.frame.width)!, height: (self.view?.frame.height)!))
@@ -514,11 +515,12 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             UserDefaults.standard.set("0.0,0.0", forKey:"playerLocationDefault")
                 self.mainCharacter.position = CGPoint(x:0.0,y:0.0)
                 self.mainCharacter.image.position = CGPoint(x:0.0,y:0.0)
+                UserDefaults.standard.set(NSCoder.string(for: self.mainCharacter.image.position), forKey: "playerLocationDefault")
+               
+            }
 
         }
-        UserDefaults.standard.set(NSCoder.string(for: mainCharacter.image.position), forKey: "playerLocationDefault")
-        }
-        //print(array)
+       
     }
     
     func spawnItems() {
