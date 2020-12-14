@@ -18,6 +18,7 @@
 		5A7DA292257CC03A0037DBC9 /* QyeIdle.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5A7DA291257CC03A0037DBC9 /* QyeIdle.atlas */; };
 		5AB0D0C92585BC6800387F0F /* QyeAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5AB0D0C82585BC6800387F0F /* QyeAttack.atlas */; };
 		5AB0D0CB2585BCC900387F0F /* QyeAttack4.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5AB0D0CA2585BCC900387F0F /* QyeAttack4.atlas */; };
+		5AB0D0CD2586EB7700387F0F /* QyeDeath.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 5AB0D0CC2586EB7700387F0F /* QyeDeath.atlas */; };
 		E47AD81D25673B970062603C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E47AD81C25673B970062603C /* AppDelegate.swift */; };
 		E47AD81F25673B970062603C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E47AD81E25673B970062603C /* GameScene.sks */; };
 		E47AD82125673B970062603C /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E47AD82025673B970062603C /* Actions.sks */; };
@@ -61,6 +62,7 @@
 		5A7DA291257CC03A0037DBC9 /* QyeIdle.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = QyeIdle.atlas; sourceTree = "<group>"; };
 		5AB0D0C82585BC6800387F0F /* QyeAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = QyeAttack.atlas; sourceTree = "<group>"; };
 		5AB0D0CA2585BCC900387F0F /* QyeAttack4.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = QyeAttack4.atlas; sourceTree = "<group>"; };
+		5AB0D0CC2586EB7700387F0F /* QyeDeath.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = QyeDeath.atlas; sourceTree = "<group>"; };
 		E47AD81925673B970062603C /* finalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = finalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E47AD81C25673B970062603C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E47AD81E25673B970062603C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		E47AD81B25673B970062603C /* finalProject */ = {
 			isa = PBXGroup;
 			children = (
+				5AB0D0CC2586EB7700387F0F /* QyeDeath.atlas */,
 				5AB0D0CA2585BCC900387F0F /* QyeAttack4.atlas */,
 				5AB0D0C82585BC6800387F0F /* QyeAttack.atlas */,
 				5A7DA291257CC03A0037DBC9 /* QyeIdle.atlas */,
@@ -277,6 +280,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AB0D0CD2586EB7700387F0F /* QyeDeath.atlas in Resources */,
 				E47AD85125673C050062603C /* MyTileSet.sks in Resources */,
 				E47AD82825673B970062603C /* Main.storyboard in Resources */,
 				5AB0D0CB2585BCC900387F0F /* QyeAttack4.atlas in Resources */,

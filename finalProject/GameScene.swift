@@ -44,6 +44,8 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     var qyeWalkArray = [SKTexture]()
     var qyeAttackAtlas = SKTextureAtlas()
     var qyeAttackArray = [SKTexture]()
+    var qyeDeathAtlas = SKTextureAtlas()
+    var qyeDeathArray = [SKTexture]()
     var nodePosition = CGPoint()
     var startTouch = CGPoint()
     var mainNoiseMap = GKNoiseMap()
@@ -156,11 +158,18 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             qyeWalkArray.append(SKTexture(imageNamed: name));
         }
         
-        qyeAttackAtlas = SKTextureAtlas(named: "QyeAttack4");
+        qyeAttackAtlas = SKTextureAtlas(named: "QyeAttack");
         for i in 0...qyeAttackAtlas.textureNames.count - 1 {
             let name = "qye_attack_\(i).png";
             qyeAttackArray.append(SKTexture(imageNamed: name));
         }
+        
+        qyeDeathAtlas = SKTextureAtlas(named: "QyeDeath");
+        for i in 0...qyeAttackAtlas.textureNames.count - 1 {
+            let name = "qye_death_\(i).png";
+            qyeDeathArray.append(SKTexture(imageNamed: name));
+        }
+        
         //mainCharacter.image = SKSpriteNode(imageNamed: "qye_idle_1.png")
         mainCharacter.image.size = CGSize(width: 70, height: 64)
         mainCharacter.image.physicsBody = SKPhysicsBody(circleOfRadius: 25.0)
@@ -239,9 +248,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
             print(nodePosition)
         }
          //store player location in player user default
-       
-        
-        
         
         mainCharacter.image.run(SKAction.repeatForever(SKAction.animate(with: qyeWalkArray, timePerFrame: 0.08)), withKey: "walk")
     }
@@ -253,8 +259,6 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
     }
     
-   
-   
     func touchUp(atPoint pos : CGPoint) {
         
         let positionInScene = pos
@@ -475,35 +479,45 @@ class GameScene: SKScene,SKPhysicsContactDelegate {
         }
         //print(health)
         if (health <= 0) {
-            let label = UILabel(frame: CGRect(x: 0 , y:0, width: (self.view?.frame.width)!, height: (self.view?.frame.height)!))
-            label.center = CGPoint(x: (self.view?.center.x)!, y: (self.view?.center.y)! )
-            label.backgroundColor = UIColor.black
-            label.textAlignment = .center
-            label.text = "You Lost :("
-            label.textColor = UIColor.white
+            
+            mainCharacter.image.run(SKAction.animate(with: qyeDeathArray, timePerFrame: 0.08), withKey: "death")
+          
+             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
 
-            self.view?.addSubview(label)
-            
+             let label = UILabel(frame: CGRect(x: 0 , y:0, width: (self.view?.frame.width)!, height: (self.view?.frame.height)!))
+             label.center = CGPoint(x: (self.view?.center.x)!, y: (self.view?.center.y)! )
+             label.backgroundColor = UIColor.black
+             label.textAlignment = .center
+             label.text = "You Lost :("
+             label.textColor = UIColor.white
+
+             self.view?.addSubview(label)
+
+
+
+
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { // Change `2.0` to the desired number of seconds.
-            
+
                 for view in self.view!.subviews {
                     if (view.isKind(of: UILabel.self)) {
                         view.removeFromSuperview()
                     }
                 }
-                
+
             }
-            
+
             UserDefaults.standard.set(0, forKey: "crowns")
             UserDefaults.standard.set(100, forKey: "health")
             UserDefaults.standard.set([], forKey: "playerItems")
             UserDefaults.standard.set([], forKey:"enemiesUserDefault")
             UserDefaults.standard.set("0.0,0.0", forKey:"playerLocationDefault")
-            mainCharacter.position = CGPoint(x:0.0,y:0.0)
-            mainCharacter.image.position = CGPoint(x:0.0,y:0.0)
-            
+                self.mainCharacter.position = CGPoint(x:0.0,y:0.0)
+                self.mainCharacter.image.position = CGPoint(x:0.0,y:0.0)
+
         }
         UserDefaults.standard.set(NSCoder.string(for: mainCharacter.image.position), forKey: "playerLocationDefault")
+        }
         //print(array)
     }
     
