@@ -20,15 +20,17 @@ class WinViewController: UIViewController {
        
         let path = Bundle.main.path(forResource: "introOST.mp3", ofType:nil)!
         let url = URL(fileURLWithPath: path)
+        
+        self.view.addBackground()
 
-
-        introOST = AVPlayer(url: url)
-        introOST.play()
-        print("playing OST");
-       
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            self.introOST = AVPlayer(url: url)
+            self.introOST.play()
+            print("playing OST");
+        }
         //self.view.backgroundColor = UIColor(patternImage: UIImage(named:"black_garden_launch_image.png")!)
 
-        self.view.addBackground()
+       
         
         
         // Do any additional setup after loading the view.
